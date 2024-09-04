@@ -1,0 +1,126 @@
+body {
+    background-color: #3B9C9C; 
+    font-family: 'Montserrat', Arial, sans-serif;
+    margin: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+}
+
+header {
+    background-color: #2F7F7F;
+    padding: 10px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+nav ul li a:hover {
+    color: #FFA07A;
+}
+
+.slider {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    opacity: 0.5; /* Hacer el fondo ligeramente transparente */
+}
+
+.slider .slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slider .slide.active {
+    opacity: 1;
+}
+
+.main-content {
+    flex: 1;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.feature {
+    flex-basis: 30%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.feature a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.feature img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+.feature p {
+    margin-top: 10px;
+    color: #FFFFFF;
+    background-color: #3B9C9C;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.feature a:hover img {
+    transform: scale(1.05);
+}
+
+.feature p:hover {
+    background-color: #FFA07A;
+}
+
+footer {
+    background-color: #2F7F7F;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    margin-top: auto;
+}

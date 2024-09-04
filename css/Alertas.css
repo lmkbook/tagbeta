@@ -1,0 +1,68 @@
+.notification-list {
+    position: absolute;
+    top: 60px; /* Ajusta según tu diseño */
+    right: 20px; /* Ajusta según tu diseño */
+    width: 300px;
+    background-color: #FFA07A;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.notification-list .alerta {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.notification-list .alerta:last-child {
+    border-bottom: none;
+}
+
+.alerta-not {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.alerta-not img {
+    width: 30px;
+    height: 30px;
+}
+
+.alerta-titulo {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 12px;
+}
+
+.alerta-tiempo {
+    font-size: 12px;
+    color: #777;
+}
+
+.alerta-mensaje {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.alerta-button {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.alerta-button button {
+    border: none;
+    background-color: #3B9C9C;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.alerta-button button:hover {
+    background-color: #FFA07A;
+}

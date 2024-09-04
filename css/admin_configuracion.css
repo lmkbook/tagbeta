@@ -1,0 +1,103 @@
+body {
+    font-family: 'Montserrat', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #2F7F7F;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+header nav ul li {
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+header nav ul li a:hover {
+    color: #FFA07A;
+}
+
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #2F7F7F;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.config-section {
+    margin-bottom: 40px;
+}
+
+.config-section h2 {
+    color: #3B9C9C;
+    margin-bottom: 20px;
+}
+
+.config-section form label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333333;
+}
+
+.config-section form input[type="text"],
+.config-section form input[type="file"],
+.config-section form input[type="color"],
+.config-section form input[type="number"],
+.config-section form select,
+.config-section form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+textarea {
+    resize: vertical;
+    height: 150px;
+}
+
+.config-section button {
+    background-color: #3B9C9C;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.config-section button:hover {
+    background-color: #FFA07A;
+}
+
+footer {
+    background-color: #2F7F7F;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 10px 0;
+}

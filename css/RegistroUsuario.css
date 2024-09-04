@@ -1,0 +1,165 @@
+body {
+    background-color: #3B9C9C; 
+    font-family: 'Montserrat', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    overflow-y: auto; 
+}
+
+header {
+    background-color: #2F7F7F; /* Color más oscuro para el header */
+    padding: 10px 0;
+    width: 100%;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+nav ul li a:hover {
+    color: #FFA07A;
+}
+
+#container {
+    background-color: #FFA07A; 
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+    flex-grow: 1;
+}
+
+#container1 {
+    background-color: #FFFFFF;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: #3B9C9C;
+    font-size: 24px;
+    margin: 0;
+}
+
+h2 {
+    color: #FFA07A;
+    font-size: 20px;
+    margin: 10px 0 0 0;
+}
+
+#container2 {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #333333;
+    font-weight: bold;
+}
+
+input, select {
+    width: calc(100% - 10px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+input[type="submit"] {
+    background-color: #3B9C9C;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    width: calc(100% - 20px);
+    margin-bottom: 15px;
+}
+
+input[type="submit"]:hover {
+    background-color: #FFA07A;
+}
+
+.password-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.password-container input {
+    flex: 1;
+    border-radius: 5px 0 0 5px;
+    margin: 0;
+}
+
+.password-container i {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-left: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+}
+
+#dogacpt{
+    position: relative;
+    top: -10px;
+    left: 40px;
+}
+#acptdog{
+    position: relative;
+    top: 19px;
+    right: 210px;
+}
+
+.required-note {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #333333;
+}
+
+footer {
+    background-color: #2F7F7F; /* Color más oscuro para el footer */
+    color: #FFFFFF;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    margin-top: auto;
+}
+
+.rule {
+    font-size: 12px;
+    color: red; /* Inicialmente las reglas se muestran en rojo */
+}
+
+.rule.valid {
+    color: green; /* Cambia a verde cuando la regla se cumple */
+}
