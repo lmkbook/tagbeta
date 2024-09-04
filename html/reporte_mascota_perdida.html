@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/reporte_mascota_perdida.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/PaginaInicioSlider.css"> <!-- Incluye el CSS -->
+    <title>Reporte de Mascota Perdida</title>
+    <link rel="icon" href="../IMG/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="reporte_mascota_perdida.html">Generar Alerta</a></li>
+                <li><a href="MascotaEncontradaQueHacer.html">¿Encontraste una Mascota?</a></li>
+                <li><a href="comunidad.html">Comunidad</a></li>
+                <li><a href="contacto.html">Contáctanos</a></li>
+            </ul>
+        </nav>
+        <div class="user-info">
+            <div class="icon-buttons">
+                <button onclick="goToProfile()" class="icon-button">
+                    <img src="../IMG/User.png" alt="Perfil">
+                </button>
+                <button onclick="goToMessages()" class="icon-button">
+                    <img src="../IMG/message.png" alt="Foro"> <!-- Cambia el texto alternativo si es necesario -->
+                </button>
+                
+                <button onclick="showNotification()" class="icon-button">
+                    <img src="../IMG/notification.png" alt="Notificaciones">
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div id="container">
+            <div id="container1">
+                <h1>TAG MY PET</h1>
+                <h2>Reporte de Mascota Perdida</h2>
+            </div>
+            <div id="container2">
+                <form method="POST" action="#" id="frm">
+                    <label for="pet_name"><strong>Nombre de Mascota *</strong></label>
+                    <select id="pet_name" required>
+                        <option value="">Selecciona una Mascota</option>
+                        <!-- Aquí se llenará dinámicamente con las mascotas registradas del usuario -->
+                    </select><br>
+
+                    <label for="fecha_perdida"><strong>Fecha de Pérdida *</strong></label>
+                    <input type="date" id="fecha_perdida" required><br>
+
+                    <label for="hora_perdida"><strong>Hora de Pérdida *</strong></label>
+                    <input type="time" id="hora_perdida" required><br>
+
+                    <label for="ubicacion"><strong>Última Ubicación Vista *</strong></label>
+                    <input type="text" id="ubicacion" placeholder="DIRECCIÓN O LUGAR" required><br>
+
+                    <label for="tipo_mascota"><strong>Tipo de Mascota *</strong></label>
+                    <select id="tipo_mascota" required>
+                        <option value="Perro">Perro</option>
+                        <option value="Gato">Gato</option>
+                    </select><br>
+
+                    <label for="descripcion"><strong>Descripción *</strong></label>
+                    <textarea id="descripcion" placeholder="DESCRIPCIÓN DE LA MASCOTA" required></textarea><br>
+
+                    <label for="location"><strong></strong>Lugar donde se perdio *</strong></strong></label>
+                    <div id="map" style="height: 400px;"></div><br>
+
+                    <label for="fotografias">Fotografías Recientes</label>
+                    <input type="file" id="fotografias" multiple><br>
+
+                    <input type="submit" value="ENVIAR REPORTE" name="finalize">
+                </form>
+                <p class="required-note"><strong>*</strong> Campo obligatorio</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Tag My Pet. Todos los derechos reservados.</p>
+    </footer>
+    <div class="slider">
+        <div class="slide active" style="background-image: url('../IMG/mascota1.jpg');"></div>
+        <div class="slide" style="background-image: url('../IMG/mascota2.jpg');"></div>
+        <div class="slide" style="background-image: url('../IMG/mascota3.jpg');"></div>
+    </div>
+
+    <script src="../javascript/slider.js"></script> <!-- Incluye el JavaScript -->
+
+    <script src="../javascript/reporte_mascota_perdida.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMap" async defer></script>
+</body>
+</html>
+

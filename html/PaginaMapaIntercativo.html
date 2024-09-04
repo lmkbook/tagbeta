@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/PaginaMapaInteractivo.css">
+    <title>Mapa Interactivo - Tag My Pet</title>
+    <link rel="icon" href="../IMG/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="reporte_mascota_perdida.html">Generar Alerta</a></li>
+                <li><a href="MascotaEncontradaQueHacer.html">¿Encontraste una Mascota?</a></li>
+                <li><a href="comunidad.html">Comunidad</a></li>
+                <li><a href="contacto.html">Contáctanos</a></li>
+            </ul>
+        </nav>
+        <div class="user-info">
+            <div class="icon-buttons">
+                <button onclick="goToProfile()" class="icon-button">
+                    <img src="../IMG/User.png" alt="Perfil">
+                </button>
+                <button onclick="goToMessages()" class="icon-button">
+                    <img src="../IMG/message.png" alt="Mensajes">
+                </button>
+                <button onclick="showNotification()" class="icon-button">
+                    <img src="../IMG/notification.png" alt="Notificaciones">
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="slider">
+        <div class="slide active" style="background-image: url('../IMG/mascota1.jpg');"></div>
+        <div class="slide" style="background-image: url('../IMG/mascota2.jpg');"></div>
+        <div class="slide" style="background-image: url('../IMG/mascota3.jpg');"></div>
+    </div>
+
+    <main>
+        <div class="map-container">
+            <h2>Mapa Interactivo</h2>
+            <div class="filter-options">
+                <button onclick="filterPins('lost')">Mascotas Perdidas</button>
+                <button onclick="filterPins('found')">Mascotas Encontradas</button>
+                <button onclick="showAllPins()">Mostrar Todas</button>
+            </div>
+            <div id="map"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Tag My Pet. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMap" async defer></script>
+    <script src="../javascript/slider.js"></script>
+    <script src="../javascript/mapaInteractivo.js"></script>
+</body>
+</html>

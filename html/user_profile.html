@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/UserProfile.css"> <!-- Incluye el CSS correspondiente -->
+    <title>Perfil de Usuario - Tag My Pet</title>
+    <link rel="icon" href="../IMG/favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="reporte_mascota_perdida.html">Generar Alerta</a></li>
+                <li><a href="MascotaEncontradaQueHacer.html">¿Encontraste una Mascota?</a></li>
+                <li><a href="comunidad.html">Comunidad</a></li>
+                <li><a href="contacto.html">Contáctanos</a></li>
+            </ul>
+        </nav>
+        <div class="user-info">
+            <div class="icon-buttons">
+                <button onclick="goToProfile()" class="icon-button">
+                    <img src="../IMG/User.png" alt="Perfil">
+                </button>
+                <button onclick="goToMessages()" class="icon-button">
+                    <img src="../IMG/message.png" alt="Mensajes">
+                </button>
+                <button onclick="showNotification()" class="icon-button">
+                    <img src="../IMG/notification.png" alt="Notificaciones">
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="slider">
+        <div class="slide active" style="background-image: url('/IMG/mascota1.jpg');"></div>
+        <div class="slide" style="background-image: url('/IMG/mascota2.jpg');"></div>
+        <div class="slide" style="background-image: url('/IMG/mascota3.jpg');"></div>
+    </div>
+
+    <div class="main-content">
+        <section class="user-profile">
+            <h1>Perfil de Usuario</h1>
+            
+            <div class="personal-info">
+                <h2>Información Personal</h2>
+                <form id="personal-info-form">
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name" value="Juan Pérez"><br>
+
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="email" id="email" name="email" value="juan.perez@example.com"><br>
+
+                    <label for="phone">Número de Teléfono:</label>
+                    <input type="tel" id="phone" name="phone" value="1234567890"><br>
+
+                    <button type="submit">Guardar Cambios</button>
+                </form>
+            </div>
+
+            <div class="change-password">
+                <h2>Cambio de Contraseña</h2>
+                <form id="password-form">
+                    <label for="current-password">Contraseña Actual:</label>
+                    <div class="password-container">
+                        <input type="password" id="current-password" name="current-password">
+                        <i class="bx bx-show-alt" onclick="togglePassword('current-password')"></i>
+                    </div>
+
+                    <label for="new-password">Nueva Contraseña:</label>
+                    <div class="password-container">
+                        <input type="password" id="new-password" name="new-password">
+                        <i class="bx bx-show-alt" onclick="togglePassword('new-password')"></i>
+                    </div>
+
+                    <label for="confirm-password">Confirmar Nueva Contraseña:</label>
+                    <div class="password-container">
+                        <input type="password" id="confirm-password" name="confirm-password">
+                        <i class="bx bx-show-alt" onclick="togglePassword('confirm-password')"></i>
+                    </div>
+
+                    <button type="submit">Actualizar Contraseña</button>
+                </form>
+            </div>
+
+            <div class="my-pets">
+                <h2>Mis Mascotas Registradas</h2>
+                <ul id="pet-list">
+                    <li onclick="showPetDetails('pet1')">Firulais</li>
+                    <li onclick="showPetDetails('pet2')">Pelusa</li>
+                    <!-- Más mascotas registradas -->
+                </ul>
+                <div id="pet-details" style="display: none;">
+                    <!-- Detalles de la mascota se mostrarán aquí -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Tag My Pet. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="../javascript/slider.js"></script> <!-- Incluye el JavaScript para el slider -->
+    <script src="../javascript/UserProfile.js"></script> <!-- Incluye el JavaScript para el perfil de usuario -->
+</body>
+</html>
