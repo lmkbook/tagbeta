@@ -11,15 +11,15 @@ window.onload = function() {
     updateRazaOptions(); // Inicializa las opciones de raza
 };
 
-// Función para generar un ID alfanumérico de 6 caracteres
-function generatePetID() {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let petID = '';
-    for (let i = 0; i < 6; i++) {
-        petID += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    document.getElementById('pet_id').value = petID;
-}
+// // Función para generar un ID alfanumérico de 6 caracteres
+// function generatePetID() {
+//     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+//     let petID = '';
+//     for (let i = 0; i < 6; i++) {
+//         petID += characters.charAt(Math.floor(Math.random() * characters.length));
+//     }
+//     document.getElementById('pet_id').value = petID;
+// }
 
 function updateRazaOptions() {
     const tipoMascota = document.getElementById('tipo_mascota').value;
