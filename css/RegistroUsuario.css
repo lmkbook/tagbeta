@@ -163,3 +163,58 @@ footer {
 .rule.valid {
     color: green; /* Cambia a verde cuando la regla se cumple */
 }
+
+.red{
+    color: red;
+}
+.checkbox-group {
+    margin-bottom: -85px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre los checkboxes */
+}
+
+.checkbox-group label {
+    font-weight: normal;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 5px; /* Espacio entre el checkbox y el texto */
+}
+
+#acptdog{
+    top: -15px;
+    position: relative;
+}
+
+#acpter{
+    top: -45px;
+    left: 30px;
+    position: relative;
+}
+#dogacpt{
+    top: -60px;
+    left: -210px;
+    position: relative;
+}
+
+#privacept{
+    top: -90px;
+    left: 30px;
+    position: relative;
+}
+.msje{
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 43px;
+    top: -8px;
+    position: relative;
+    text-align: center;
+}
+
+#respo{
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 43px;
+    top: -8px;
+    position: relative;
+    text-align: center;
+}
