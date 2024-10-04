@@ -210,9 +210,7 @@
             }        
         ?>
     </div>
-    <footer>
-        <p>&copy; 2024 Tag My Pet. Todos los derechos reservados.</p>
-    </footer>
+
     <div class="slider">
         <div class="slide active" style="background-image: url('../IMG/mascota1.jpg');"></div>
         <div class="slide" style="background-image: url('../IMG/mascota2.jpg');"></div>
@@ -220,7 +218,8 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="../javascript/RegistroUsuario.js"></script>
-    <script src="../javascript/slider.js"></script> 
+    <script src="../javascript/slider.js"></script>
+    <script src="../javascript/footer.js"></script>                       
 
     
 </body>
