@@ -134,9 +134,6 @@
         </div>
     </main>
 
-    <footer>
-        <p>&copy; 2024 Tag My Pet. Todos los derechos reservados.</p>
-    </footer>
     <div class="slider">
         <div class="slide active" style="background-image: url('../IMG/mascota1.jpg');"></div>
         <div class="slide" style="background-image: url('../IMG/mascota2.jpg');"></div>
@@ -146,5 +143,6 @@
     <script src="../javascript/slider.js"></script>
 
     <script src="../javascript/pet_registration.js"></script>
+    <script src="../javascript/footer.js"></script>
 </body>
 </html>
