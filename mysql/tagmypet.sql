@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 12-09-2024 a las 09:49:56
+-- Tiempo de generación: 04-10-2024 a las 23:32:39
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -123,7 +123,7 @@ CREATE TABLE `Rusers` (
   `Ncel` bigint(20) NOT NULL,
   `Barrio` varchar(60) NOT NULL,
   `Nopcel` varchar(20) DEFAULT NULL,
-  `Email` varchar(60) NOT NULL,
+  `Email` varchar(255) DEFAULT NULL,
   `idCiudad` int(11) NOT NULL,
   `Pass` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
