@@ -139,15 +139,16 @@
                     $city = $_POST["ciudad"] ?? null;
                     $pass = $_POST["passoword"] ?? null;
                     $mailhash = MAILHASH; //contraseña de cifrado para el correo
+                    $dochash = DOCHASH; // contraseña cifrada para el documento
                     //PREPARACION DE LA CONSULTA
-                    $query = $sqli->prepare("SELECT `Ndoc`, `Ncel`, `Nopcel`, AES_DECRYPT(UNHEX(Email),?) 
+                    $query = $sqli->prepare("SELECT AES_DECRYPT(UNHEX(Ndoc),?), `Ncel`, `Nopcel`, AES_DECRYPT(UNHEX(Email),?) 
                     FROM `Rusers` 
-                    WHERE Ndoc=? 
+                    WHERE AES_DECRYPT(UNHEX(Ndoc),?)=? 
                     OR Ncel=? 
                     OR Nopcel=? 
-                    OR AES_DECRYPT(UNHEX(Email),?) = ?");
+                    OR AES_DECRYPT(UNHEX(Email),?)=?");
                     //EXPIFICACION DE LOS PARAMETROS PARA LA CONSULTA
-                    $query->bind_param("ssisss", $mailhash, $numdoc, $celnum, $altercel, $mailhash, $email);
+                    $query->bind_param("ssssisss", $dochash, $mailhash, $dochash, $numdoc, $celnum, $altercel, $mailhash, $email);
                     //EJECUCION DE LA CONSULTA
                     if(!$query->execute()){
                         echo htmlspecialchars("Error en la ejecucion de busqueda");
@@ -193,8 +194,8 @@
                                 $insert = $sqli->prepare("INSERT INTO `Rusers`
                                 (`Pname`, `Sname`, `Psname`, `Ssname`, `idTpdoc`, `Ndoc`, `Fbirth`, `Edad`, `Address`, `Ncel`, `Barrio`, `Nopcel`, `Email`, `idCiudad`, `Pass`)
                                 VALUES
-                                (?,?,?,?,?,?,?,?,?,?,?,?,HEX(AES_ENCRYPT(?,?)),?,?)");
-                                $insert->bind_param("ssssissisissssis", $onename, $twoname, $onesurname, $twosurname, $Idtpdoc, $numdoc, $fechnaci, $edad, $dir, $celnum, $barr, $altercel, $email, $mailhash, $idCity, $hash);
+                                (?,?,?,?,?,HEX(AES_ENCRYPT(?,?)),?,?,?,?,?,?,HEX(AES_ENCRYPT(?,?)),?,?)");
+                                $insert->bind_param("ssssisssisissssis", $onename, $twoname, $onesurname, $twosurname, $Idtpdoc, $numdoc, $dochash, $fechnaci, $edad, $dir, $celnum, $barr, $altercel, $email, $mailhash, $idCity, $hash);
                                 if(!$insert->execute()){
                                     echo htmlspecialchars("ERROR AL INTRODUCIR EL USUARIO");
                                     exit();
