@@ -113,101 +113,134 @@
     </div>
     <div id="respo">
         <?php
-            include('../html/conexion.php');
-            if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["envi"])){
-                $name = $_POST["nombre"];
-                $surname = $_POST["apellidos"];
-                $doctip = $_POST["doctis"];
-                $numdoc = $_POST["numdoc"];
-                $fechnaci = $_POST["nacifech"];
-                $edad = $_POST["age"];
-                $dir = $_POST["direcion"];
-                $barr = $_POST["getho"];
-                $celnum = $_POST["nmcel"];
-                $altercel = $_POST["altcel"];
-                $email = $_POST["correo"];
-                $city = $_POST["ciudad"];
-                $pass = $_POST["passoword"];
-                $newuser = $nsql->prepare("SELECT `Ndoc`, `Ncel`, `Nopcel`, `Email` FROM Rusers WHERE Ndoc=? OR Ncel=? OR Nopcel=? OR Email=?");
-                $newuser->bind_param("siss", $numdoc, $celnum, $altercel, $email);
-                if(!$newuser->execute()){
-                    echo htmlspecialchars("Error al ejecutar la consulta");
-                }else{
-                    $result = $newuser->get_result();
-                    if($result->num_rows > 0){
-                        echo "<script> const mnsj = document.getElementById('respo');
-                        mnsj.innerHTML = '<strong>" . htmlspecialchars("Uno de los registros se encuentra duplicado") . "</strong>';
-                        mnsj.scrollIntoView({ behavior: 'smooth', blook: 'center' });
-                        setTimeout(function (){
-                            mnsj.remove();
-                        }, 4000) </script>";
+            try{
+                if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["envi"]) === true){
+                    include_once('../model/connect.php');
+                    include_once('../model/segurity.php');
+                    $name = $_POST["nombre"] ?? null;
+                    $surname = $_POST["apellidos"] ?? null;
+                    // SEPARADOR POR SI TIENE DOS NOMBRES
+                    $sepname = explode(" ", $name);
+                    $sepsuname = explode(" ", $surname);
+                    // SEPARADOR POR SI TIENE DOS APELLIDOS
+                    $onename = $sepname[0] ?? null; //ACCEDER AL PRIMER NOMBRE
+                    $twoname = $sepname[1] ?? null; //ACCEDER AL SEGUNDO NOMBRE
+                    $onesurname = $sepsuname[0] ?? null; //ACCEDER AL PRIMER APELLIDO
+                    $twosurname = $sepsuname[1] ?? null;  //ACCEDER AL SEGUNDO APELLIDO
+                    $doctip = $_POST["doctis"] ?? null;
+                    $numdoc = $_POST["numdoc"] ?? null;
+                    $fechnaci = $_POST["nacifech"] ?? null;
+                    $edad = $_POST["age"] ?? null;
+                    $dir = $_POST["direcion"] ?? null;
+                    $barr = $_POST["getho"] ?? null;
+                    $celnum = $_POST["nmcel"] ?? null;
+                    $altercel = $_POST["altcel"] ?? null;
+                    $email = $_POST["correo"] ?? null;
+                    $city = $_POST["ciudad"] ?? null;
+                    $pass = $_POST["passoword"] ?? null;
+                    $mailhash = MAILHASH; //contraseña de cifrado para el correo
+                    //PREPARACION DE LA CONSULTA
+                    $query = $sqli->prepare("SELECT `Ndoc`, `Ncel`, `Nopcel`, AES_DECRYPT(UNHEX(Email),?) 
+                    FROM `Rusers` 
+                    WHERE Ndoc=? 
+                    OR Ncel=? 
+                    OR Nopcel=? 
+                    OR AES_DECRYPT(UNHEX(Email),?) = ?");
+                    //EXPIFICACION DE LOS PARAMETROS PARA LA CONSULTA
+                    $query->bind_param("ssisss", $mailhash, $numdoc, $celnum, $altercel, $mailhash, $email);
+                    //EJECUCION DE LA CONSULTA
+                    if(!$query->execute()){
+                        echo htmlspecialchars("Error en la ejecucion de busqueda");
+                        exit();
                     }else{
-                        switch($doctip){
-                            case "CC":
-                                $Idtpdoc = 1;
-                                break;
-                            case "Pasaporte":
-                                $Idtpdoc = 2;
-                                break;
-                            case "CEX":
-                                $Idtpdoc = 3;
-                                break;
-                            default:
-                                echo htmlspecialchars("No selecciono nigun tipo de documento");
-                                break;
-                        }
-                        switch($city){
-                            case "Bogotá":
-                                $idCity = 1;
-                                break;
-                            case "Soacha":
-                                $idCity = 2;
-                                break;
-                            default:
-                                echo htmlspecialchars("NO HA SELECCIONADO NINGUNA CIUDAD");
-                                break;
-                        }
-                        $sepname = explode(" ", $name);
-                        $sepsuname = explode(" ", $surname);
-                        $onename = $sepname[0];
-                        $twoname = $sepname[1];
-                        $onesurname = $sepsuname[0];
-                        $twosurname = $sepsuname[1];
-                        $hash = password_hash($pass, PASSWORD_DEFAULT);
-                        $query = $nsql->prepare("INSERT INTO `Rusers`
-                        (`Pname`, `Sname`, `Psname`, `Ssname`, `idTpdoc`, `Ndoc`, `Fbirth`, `Edad`, `Address`, `Ncel`, `Barrio`, `Nopcel`, `Email`, `idCiudad`, `Pass`)
-                        VALUES
-                        (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-                        $query->bind_param("ssssissisisssis", $onename, $twoname, $onesurname, $twosurname, $Idtpdoc, $numdoc, $fechnaci, $edad, $dir, $celnum, $barr, $altercel, $email, $idCity, $hash);
-                        if(!$query->execute()){
-                            echo htmlspecialchars("ERROR AL EJECUTAR LA INSERTAR LOS DATOS");
+                        $row = $query->get_result();
+                        if($row->num_rows > 0){
+                            echo "<script> const mnsj = document.getElementById('respo');
+                            mnsj.innerHTML = '<strong>" . htmlspecialchars("UNO DE LOS REGISTROS SE ENCUENTRA DUPLICADO") . "</strong>';
+                            mnsj.scrollIntoView({ behavior: 'smooth', blook: 'center' });
+                            setTimeout(function (e){
+                                mnsj.remove();
+                                e.preventDefault();
+                            }, 4000) </script>";
                         }else{
-                            if($altercel !== ''){
-                                echo "<script> window.location.href = '../html/pet_registration.php';</script>";
-                                exit();
-                            }else{
-                                $null = $nsql->prepare("SELECT MAX(idRusers) AS max_id FROM `Rusers`");
-                                if(!$null->execute()){
-                                    echo htmlspecialchars("Error al ejecutar la consulta del id");
+                            switch($doctip){
+                                case "CC":
+                                    $Idtpdoc = 1;
+                                    break;
+                                case "Pasaporte":
+                                    $Idtpdoc = 2;
+                                    break;
+                                case "CEX":
+                                    $Idtpdoc = 3;
+                                    break;
+                                default:
+                                    echo htmlspecialchars("No selecciono nigun tipo de documento");
+                                    break;
+                            }
+                            switch($city){
+                                case "Bogotá":
+                                    $idCity = 1;
+                                    break;
+                                case "Soacha":
+                                    $idCity = 2;
+                                    break;
+                                default:
+                                    echo htmlspecialchars("NO HA SELECCIONADO NINGUNA CIUDAD");
+                                    break;
+                            }
+                            try{
+                                $hash = password_hash($pass, PASSWORD_DEFAULT);
+                                $insert = $sqli->prepare("INSERT INTO `Rusers`
+                                (`Pname`, `Sname`, `Psname`, `Ssname`, `idTpdoc`, `Ndoc`, `Fbirth`, `Edad`, `Address`, `Ncel`, `Barrio`, `Nopcel`, `Email`, `idCiudad`, `Pass`)
+                                VALUES
+                                (?,?,?,?,?,?,?,?,?,?,?,?,HEX(AES_ENCRYPT(?,?)),?,?)");
+                                $insert->bind_param("ssssissisissssis", $onename, $twoname, $onesurname, $twosurname, $Idtpdoc, $numdoc, $fechnaci, $edad, $dir, $celnum, $barr, $altercel, $email, $mailhash, $idCity, $hash);
+                                if(!$insert->execute()){
+                                    echo htmlspecialchars("ERROR AL INTRODUCIR EL USUARIO");
+                                    exit();
                                 }else{
-                                    $savenull = $null->get_result();
-                                    $row = $savenull->fetch_assoc();
-                                    $id = $row['max_id'];
-                                    $llun = NULL;
-                                    $update = $nsql->prepare("UPDATE `Rusers` SET Nopcel=? WHERE idRusers=?");
-                                    $update->bind_param("si", $llun, $id);
-                                    if(!$update->execute()){
-                                        echo htmlspecialchars("ERROR EN LA CONSULTA DE ACUTALIZACION");
+                                    if($altercel !== ''){
+                                        echo "<script> const mnsj = document.getElementById('respo');
+                                        mnsj.innerHTML = '<strong>" . htmlspecialchars("EL USUARIO SE HA REGISTRADO CORRECTAMENTE") . "</strong>';
+                                        mnsj.scrollIntoView({ behavior: 'smooth', blook: 'center' });
+                                        setTimeout(function (){
+                                            mnsj.remove();
+                                            window.location.href = '../html/InicioSesion.html';
+                                        }, 4000) </script>";
                                     }else{
-                                        echo "<script> window.location.href = '../html/pet_registration.php';</script>";
-                                        exit();
+                                        $null = $sqli->prepare("SELECT MAX(idRusers) AS max_id FROM `Rusers`");
+                                        if(!$null->execute()){
+                                            echo htmlspecialchars("Error al ejecutar la consulta del id");
+                                        }else{
+                                            $savenull = $null->get_result();
+                                            $row = $savenull->fetch_assoc();
+                                            $id = $row['max_id'];
+                                            $llun = NULL;
+                                            $update = $sqli->prepare("UPDATE `Rusers` SET Nopcel=? WHERE idRusers=?");
+                                            $update->bind_param("si", $llun, $id);
+                                            if(!$update->execute()){
+                                                echo htmlspecialchars("ERROR EN LA CONSULTA DE ACUTALIZACION");
+                                            }else{
+                                                echo "<script> const mnsj = document.getElementById('respo');
+                                                mnsj.innerHTML = '<strong>" . htmlspecialchars("EL USUARIO SE HA REGISTRADO CORRECTAMENTE") . "</strong>';
+                                                mnsj.scrollIntoView({ behavior: 'smooth', blook: 'center' });
+                                                setTimeout(function (){
+                                                    mnsj.remove();
+                                                    window.location.href = '../html/InicioSesion.html';
+                                                }, 4000) </script>";
+                                            }
+                                        }   
                                     }
-                                }   
+                                }    
+                            }catch(Exception $e){
+                                die("Error: " . $e->getMessage());
                             }
                         }
-                    }          
+                    }
                 }
-            }        
+            }catch(Exception $e){
+                die("ERROR INSEPERADO: " . $e->getMessage());
+            }
         ?>
     </div>
 
