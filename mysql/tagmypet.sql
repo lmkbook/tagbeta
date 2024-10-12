@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 05-10-2024 a las 06:54:33
+-- Tiempo de generación: 12-10-2024 a las 05:47:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -125,7 +125,8 @@ CREATE TABLE `Rusers` (
   `Nopcel` varchar(20) DEFAULT NULL,
   `Email` varchar(255) DEFAULT NULL,
   `idCiudad` int(11) NOT NULL,
-  `Pass` varchar(255) NOT NULL
+  `Pass` varchar(255) NOT NULL,
+  `Rol` varchar(20) DEFAULT 'Usuario'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -208,8 +209,8 @@ ALTER TABLE `Rpets`
 --
 ALTER TABLE `Rusers`
   ADD PRIMARY KEY (`idRusers`),
-  ADD UNIQUE KEY `Ndoc` (`Ndoc`),
   ADD UNIQUE KEY `Ncel` (`Ncel`),
+  ADD UNIQUE KEY `Ndoc` (`Ndoc`),
   ADD UNIQUE KEY `Email` (`Email`),
   ADD UNIQUE KEY `Nopcel` (`Nopcel`),
   ADD KEY `idTpdoc` (`idTpdoc`),
