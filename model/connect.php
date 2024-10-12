@@ -8,12 +8,10 @@
 <body>
     <?php
         try{
-            $sqli = new mysqli('127.0.0.1' , 'root', '', 'tagmypet');
-            if($sqli->connect_errno){
-                die("Error en la conexion: " . $sqli->connect_error);
-            }
-        }catch(Exception $e){
-            die("Ocurrio un error con la base de datos: " . $e->getMessage());
+            $sqli = new PDO("mysql:host=127.0.0.1; dbname=tagmypet", 'root', '');
+            $sqli->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }catch(PDOException $e){
+            die("Error con la base de datos: " . $e->getMessage());
         }
     ?>
 </body>
