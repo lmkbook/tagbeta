@@ -121,8 +121,8 @@
                     $surname = $_POST["apellidos"] ?? null;
                     // SEPARADOR POR SI TIENE DOS NOMBRES
                     $sepname = explode(" ", $name);
-                    $sepsuname = explode(" ", $surname);
                     // SEPARADOR POR SI TIENE DOS APELLIDOS
+                    $sepsuname = explode(" ", $surname);          
                     $onename = $sepname[0] ?? null; //ACCEDER AL PRIMER NOMBRE
                     $twoname = $sepname[1] ?? null; //ACCEDER AL SEGUNDO NOMBRE
                     $onesurname = $sepsuname[0] ?? null; //ACCEDER AL PRIMER APELLIDO
@@ -139,30 +139,28 @@
                     $city = $_POST["ciudad"] ?? null;
                     $pass = $_POST["passoword"] ?? null;
                     $mailhash = MAILHASH; //contraseña de cifrado para el correo
-                    $dochash = DOCHASH; // contraseña cifrada para el documento
+                    $dochash = DOCHASH; // contraseña de cifrado para el documento
                     //PREPARACION DE LA CONSULTA
-                    $query = $sqli->prepare("SELECT AES_DECRYPT(UNHEX(Ndoc),?), `Ncel`, `Nopcel`, AES_DECRYPT(UNHEX(Email),?) 
-                    FROM `Rusers` 
-                    WHERE AES_DECRYPT(UNHEX(Ndoc),?)=? 
-                    OR Ncel=? 
-                    OR Nopcel=? 
-                    OR AES_DECRYPT(UNHEX(Email),?)=?");
-                    //EXPIFICACION DE LOS PARAMETROS PARA LA CONSULTA
-                    $query->bind_param("ssssisss", $dochash, $mailhash, $dochash, $numdoc, $celnum, $altercel, $mailhash, $email);
-                    //EJECUCION DE LA CONSULTA
+                    $query = $sqli->prepare("SELECT AES_DECRYPT(UNHEX(`Ndoc`), :doc), `Ncel`, `Nopcel`, AES_DECRYPT(UNHEX(`Email`), :mail) FROM `Rusers` WHERE AES_DECRYPT(UNHEX(Ndoc), :doc)=:val1 OR Ncel=:val2 OR Nopcel=:val3 OR AES_DECRYPT(UNHEX(Email), :mail)=:val4");
+                    $query->bindValue(':doc', $dochash, PDO::PARAM_STR);
+                    $query->bindValue(':mail', $mailhash, PDO::PARAM_STR);
+                    $query->bindValue(':doc', $dochash, PDO::PARAM_STR);
+                    $query->bindValue(':val1', $numdoc, PDO::PARAM_STR);
+                    $query->bindValue(':val2', $celnum, PDO::PARAM_INT);
+                    $query->bindValue(':val3', $altercel, PDO::PARAM_STR);
+                    $query->bindValue(':mail', $mailhash, PDO::PARAM_STR);                    
+                    $query->bindValue(':val4', $email, PDO::PARAM_STR);
                     if(!$query->execute()){
-                        echo htmlspecialchars("Error en la ejecucion de busqueda");
-                        exit();
+                        echo htmlspecialchars("OCURRIO UN ERROR EN LA EJECUCION");
                     }else{
-                        $row = $query->get_result();
-                        if($row->num_rows > 0){
-                            echo "<script> const mnsj = document.getElementById('respo');
-                            mnsj.innerHTML = '<strong>" . htmlspecialchars("UNO DE LOS REGISTROS SE ENCUENTRA DUPLICADO") . "</strong>';
-                            mnsj.scrollIntoView({ behavior: 'smooth', blook: 'center' });
-                            setTimeout(function (e){
-                                mnsj.remove();
-                                e.preventDefault();
-                            }, 4000) </script>";
+                        $query->fetchAll(PDO::FETCH_ASSOC);
+                        if($query->rowCount() >= 1){
+                            echo "<script> const mnje = document.getElementById('respo');
+                            mnje.innerHTML = '<strong>" . htmlspecialchars("EXISTE UN DATO DUPLICADO") . "</strong>';
+                            mnje.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            setTimeout(()=>{
+                                mnje.remove();
+                            }, 5000) </script>";
                         }else{
                             switch($doctip){
                                 case "CC":
@@ -194,53 +192,69 @@
                                 $insert = $sqli->prepare("INSERT INTO `Rusers`
                                 (`Pname`, `Sname`, `Psname`, `Ssname`, `idTpdoc`, `Ndoc`, `Fbirth`, `Edad`, `Address`, `Ncel`, `Barrio`, `Nopcel`, `Email`, `idCiudad`, `Pass`)
                                 VALUES
-                                (?,?,?,?,?,HEX(AES_ENCRYPT(?,?)),?,?,?,?,?,?,HEX(AES_ENCRYPT(?,?)),?,?)");
-                                $insert->bind_param("ssssisssisissssis", $onename, $twoname, $onesurname, $twosurname, $Idtpdoc, $numdoc, $dochash, $fechnaci, $edad, $dir, $celnum, $barr, $altercel, $email, $mailhash, $idCity, $hash);
+                                (:vl1, :vl2, :vl3, :vl4, :vl5, HEX(AES_ENCRYPT(:vl6, :dochash)), :vl7, :vl8, :vl9, :vl10, :vl11, :vl12, HEX(AES_ENCRYPT(:vl13, :hasmail)), :vl14, :vl15)");
+                                $insert->bindValue(':vl1', $onename, PDO::PARAM_STR);
+                                $insert->bindValue(':vl2', $twoname, $twoname === null ? PDO::PARAM_NULL : PDO_::PARAM_STR);
+                                $insert->bindValue(':vl3', $onesurname, PDO::PARAM_STR);
+                                $insert->bindValue(':vl4', $twosurname, $twosurname === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
+                                $insert->bindValue(':vl5', $Idtpdoc, PDO::PARAM_INT);
+                                $insert->bindValue(':vl6', $numdoc, PDO::PARAM_STR);
+                                $insert->bindValue(':dochash', $dochash, PDO::PARAM_STR);
+                                $insert->bindValue(':vl7', $fechnaci, PDO::PARAM_STR);
+                                $insert->bindValue(':vl8', $edad, PDO::PARAM_INT);
+                                $insert->bindValue(':vl9', $dir, PDO::PARAM_STR);
+                                $insert->bindValue(':vl10', $celnum, PDO::PARAM_INT);
+                                $insert->bindValue(':vl11', $barr, PDO::PARAM_STR);
+                                $insert->bindValue(':vl12', $altercel, $altercel === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
+                                $insert->bindValue(':vl13', $email, PDO::PARAM_STR);
+                                $insert->bindValue(':hasmail', $mailhash, PDO::PARAM_STR);
+                                $insert->bindValue(':vl14', $idCity, PDO::PARAM_INT);
+                                $insert->bindValue(':vl15', $hash, PDO::PARAM_STR);
                                 if(!$insert->execute()){
-                                    echo htmlspecialchars("ERROR AL INTRODUCIR EL USUARIO");
-                                    exit();
+                                    echo htmlspecialchars("Error al insertar los datos");
                                 }else{
                                     if($altercel !== ''){
-                                        echo "<script> const mnsj = document.getElementById('respo');
-                                        mnsj.innerHTML = '<strong>" . htmlspecialchars("EL USUARIO SE HA REGISTRADO CORRECTAMENTE") . "</strong>';
-                                        mnsj.scrollIntoView({ behavior: 'smooth', blook: 'center' });
-                                        setTimeout(function (){
-                                            mnsj.remove();
-                                            window.location.href = '../html/InicioSesion.html';
-                                        }, 4000) </script>";
+                                        echo "<script> const mnje = document.getElementById('respo');
+                                        mnje.innerHTML = '<strong>" . htmlspecialchars("USUARIO REGISTRADO CORRECTAMENTE") . "</strong>';
+                                        mnje.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                        setTimeout(()=>{
+                                            mnje.remove();
+                                            window.location.href='../html/InicioSesion.php';
+                                        }, 5000)
+                                         </script>";
                                     }else{
-                                        $null = $sqli->prepare("SELECT MAX(idRusers) AS max_id FROM `Rusers`");
-                                        if(!$null->execute()){
-                                            echo htmlspecialchars("Error al ejecutar la consulta del id");
+                                        $maxid = $sqli->prepare("SELECT MAX(idRusers) AS id_max FROM Rusers");
+                                        if(!$maxid->execute()){
+                                            echo htmlspecialchars("Error asociado con el usuario");
                                         }else{
-                                            $savenull = $null->get_result();
-                                            $row = $savenull->fetch_assoc();
-                                            $id = $row['max_id'];
-                                            $llun = NULL;
-                                            $update = $sqli->prepare("UPDATE `Rusers` SET Nopcel=? WHERE idRusers=?");
-                                            $update->bind_param("si", $llun, $id);
+                                            $row = $maxid->fetchAll(PDO::FETCH_ASSOC);
+                                            $idd = $row[0]['id_max'];
+                                            $update = $sqli->prepare("UPDATE Rusers SET Nopcel=:nl WHERE idRusers=:id");
+                                            $update->bindValue(':nl', NULL, PDO::PARAM_NULL);
+                                            $update->bindValue(':id', $idd, PDO::PARAM_INT);
                                             if(!$update->execute()){
-                                                echo htmlspecialchars("ERROR EN LA CONSULTA DE ACUTALIZACION");
+                                                echo htmlspecialchars("Error de usuario");
                                             }else{
-                                                echo "<script> const mnsj = document.getElementById('respo');
-                                                mnsj.innerHTML = '<strong>" . htmlspecialchars("EL USUARIO SE HA REGISTRADO CORRECTAMENTE") . "</strong>';
-                                                mnsj.scrollIntoView({ behavior: 'smooth', blook: 'center' });
-                                                setTimeout(function (){
-                                                    mnsj.remove();
-                                                    window.location.href = '../html/InicioSesion.html';
-                                                }, 4000) </script>";
+                                                echo "<script> const mnje = document.getElementById('respo');
+                                                mnje.innerHTML = '<strong>" . htmlspecialchars("USUARIO REGISTRADO CORRECTAMENTE") . "</strong>';
+                                                mnje.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                                setTimeout(()=>{
+                                                    mnje.remove();
+                                                    window.location.href='../html/InicioSesion.php';
+                                                }, 5000)
+                                                 </script>";
                                             }
-                                        }   
+                                        }
                                     }
-                                }    
+                                }  
                             }catch(Exception $e){
-                                die("Error: " . $e->getMessage());
-                            }
+                                echo htmlspecialchars("Inesperado error");
+                            }                          
                         }
                     }
-                }
+                }    
             }catch(Exception $e){
-                die("ERROR INSEPERADO: " . $e->getMessage());
+                die("ERROR INSEPERADO");
             }
         ?>
     </div>
