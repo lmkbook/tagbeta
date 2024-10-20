@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 12-10-2024 a las 05:47:08
+-- Tiempo de generación: 20-10-2024 a las 07:22:27
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -93,6 +93,26 @@ CREATE TABLE `Repets` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `Rol`
+--
+
+CREATE TABLE `Rol` (
+  `idRol` tinyint(4) NOT NULL,
+  `Name` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `Rol`
+--
+
+INSERT INTO `Rol` (`idRol`, `Name`) VALUES
+(1, 'Usuario'),
+(2, 'Moderador'),
+(3, 'Administrador');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `Rpets`
 --
 
@@ -126,7 +146,7 @@ CREATE TABLE `Rusers` (
   `Email` varchar(255) DEFAULT NULL,
   `idCiudad` int(11) NOT NULL,
   `Pass` varchar(255) NOT NULL,
-  `Rol` varchar(20) DEFAULT 'Usuario'
+  `idRol` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -198,6 +218,12 @@ ALTER TABLE `Repets`
   ADD KEY `idStrilpets` (`idStrilpets`);
 
 --
+-- Indices de la tabla `Rol`
+--
+ALTER TABLE `Rol`
+  ADD PRIMARY KEY (`idRol`);
+
+--
 -- Indices de la tabla `Rpets`
 --
 ALTER TABLE `Rpets`
@@ -214,7 +240,8 @@ ALTER TABLE `Rusers`
   ADD UNIQUE KEY `Email` (`Email`),
   ADD UNIQUE KEY `Nopcel` (`Nopcel`),
   ADD KEY `idTpdoc` (`idTpdoc`),
-  ADD KEY `idCiudad` (`idCiudad`);
+  ADD KEY `idCiudad` (`idCiudad`),
+  ADD KEY `idRol` (`idRol`);
 
 --
 -- Indices de la tabla `Strilpets`
@@ -258,6 +285,12 @@ ALTER TABLE `Pets`
 --
 ALTER TABLE `Repets`
   MODIFY `idRepets` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `Rol`
+--
+ALTER TABLE `Rol`
+  MODIFY `idRol` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `Rpets`
@@ -313,7 +346,8 @@ ALTER TABLE `Rpets`
 --
 ALTER TABLE `Rusers`
   ADD CONSTRAINT `Rusers_ibfk_1` FOREIGN KEY (`idTpdoc`) REFERENCES `Tpdoc` (`idTpdoc`),
-  ADD CONSTRAINT `Rusers_ibfk_2` FOREIGN KEY (`idCiudad`) REFERENCES `Ciudad` (`idCiudad`);
+  ADD CONSTRAINT `Rusers_ibfk_2` FOREIGN KEY (`idCiudad`) REFERENCES `Ciudad` (`idCiudad`),
+  ADD CONSTRAINT `Rusers_ibfk_3` FOREIGN KEY (`idRol`) REFERENCES `Rol` (`idRol`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
