@@ -117,6 +117,23 @@
                 if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["envi"]) === true){
                     include_once('../model/connect.php');
                     include_once('../model/segurity.php');
+                    function vermsj($msj){
+                        echo "<script> const mnje = document.getElementById('respo');
+                        mnje.innerHTML = '<strong>" . htmlspecialchars($msj) . "</strong>';
+                        mnje.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        setTimeout(()=>{
+                            mnje.remove();
+                            window.location.href = '../html/InicioSesion.php';
+                        }, 3000) </script>";
+                    }
+                    function mjsjj($msg){
+                        echo "<script> const mnje = document.getElementById('respo');
+                            mnje.innerHTML = '<strong>" . htmlspecialchars($msg) . "</strong>';
+                            mnje.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            setTimeout(()=>{
+                                mnje.remove();
+                            }, 5000) </script>";
+                    }
                     $name = $_POST["nombre"] ?? null;
                     $surname = $_POST["apellidos"] ?? null;
                     // SEPARADOR POR SI TIENE DOS NOMBRES
@@ -141,26 +158,25 @@
                     $mailhash = MAILHASH; //contraseña de cifrado para el correo
                     $dochash = DOCHASH; // contraseña de cifrado para el documento
                     //PREPARACION DE LA CONSULTA
-                    $query = $sqli->prepare("SELECT AES_DECRYPT(UNHEX(`Ndoc`), :doc), `Ncel`, `Nopcel`, AES_DECRYPT(UNHEX(`Email`), :mail) FROM `Rusers` WHERE AES_DECRYPT(UNHEX(Ndoc), :doc)=:val1 OR Ncel=:val2 OR Nopcel=:val3 OR AES_DECRYPT(UNHEX(Email), :mail)=:val4");
+                    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                        mjsjj("ESTE CORREO NO ES VALIDO");
+                    }
+                    $query = Connect::ObtainInstance()->prepare("SELECT AES_DECRYPT(UNHEX(`Ndoc`), :doc), `Ncel`, `Nopcel`, AES_DECRYPT(UNHEX(`Email`), :mail) 
+                    FROM `Rusers` WHERE AES_DECRYPT(UNHEX(Ndoc), :dochs)=:val1 OR Ncel=:val2 OR Nopcel=:val3 OR AES_DECRYPT(UNHEX(Email), :mailsh)=:val4");
                     $query->bindValue(':doc', $dochash, PDO::PARAM_STR);
                     $query->bindValue(':mail', $mailhash, PDO::PARAM_STR);
-                    $query->bindValue(':doc', $dochash, PDO::PARAM_STR);
+                    $query->bindValue(':dochs', $dochash, PDO::PARAM_STR); 
                     $query->bindValue(':val1', $numdoc, PDO::PARAM_STR);
                     $query->bindValue(':val2', $celnum, PDO::PARAM_INT);
                     $query->bindValue(':val3', $altercel, PDO::PARAM_STR);
-                    $query->bindValue(':mail', $mailhash, PDO::PARAM_STR);                    
+                    $query->bindValue(':mailsh', $mailhash, PDO::PARAM_STR);     
                     $query->bindValue(':val4', $email, PDO::PARAM_STR);
                     if(!$query->execute()){
                         echo htmlspecialchars("OCURRIO UN ERROR EN LA EJECUCION");
                     }else{
                         $query->fetchAll(PDO::FETCH_ASSOC);
                         if($query->rowCount() >= 1){
-                            echo "<script> const mnje = document.getElementById('respo');
-                            mnje.innerHTML = '<strong>" . htmlspecialchars("EXISTE UN DATO DUPLICADO") . "</strong>';
-                            mnje.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            setTimeout(()=>{
-                                mnje.remove();
-                            }, 5000) </script>";
+                            mjsjj("EXISTE UN DATO DUPLICADO");
                         }else{
                             switch($doctip){
                                 case "CC":
@@ -173,7 +189,7 @@
                                     $Idtpdoc = 3;
                                     break;
                                 default:
-                                    echo htmlspecialchars("No selecciono nigun tipo de documento");
+                                    echo htmlspecialchars("No selecciono ningun tipo de documento");
                                     break;
                             }
                             switch($city){
@@ -189,7 +205,7 @@
                             }
                             try{
                                 $hash = password_hash($pass, PASSWORD_DEFAULT);
-                                $insert = $sqli->prepare("INSERT INTO `Rusers`
+                                $insert = Connect::ObtainInstance()->prepare("INSERT INTO `Rusers`
                                 (`Pname`, `Sname`, `Psname`, `Ssname`, `idTpdoc`, `Ndoc`, `Fbirth`, `Edad`, `Address`, `Ncel`, `Barrio`, `Nopcel`, `Email`, `idCiudad`, `Pass`)
                                 VALUES
                                 (:vl1, :vl2, :vl3, :vl4, :vl5, HEX(AES_ENCRYPT(:vl6, :dochash)), :vl7, :vl8, :vl9, :vl10, :vl11, :vl12, HEX(AES_ENCRYPT(:vl13, :hasmail)), :vl14, :vl15)");
@@ -214,47 +230,35 @@
                                     echo htmlspecialchars("Error al insertar los datos");
                                 }else{
                                     if($altercel !== ''){
-                                        echo "<script> const mnje = document.getElementById('respo');
-                                        mnje.innerHTML = '<strong>" . htmlspecialchars("USUARIO REGISTRADO CORRECTAMENTE") . "</strong>';
-                                        mnje.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                        setTimeout(()=>{
-                                            mnje.remove();
-                                            window.location.href='../html/InicioSesion.php';
-                                        }, 5000)
-                                         </script>";
+                                        vermsj("USUARIO REGISTRADO CORRECTAMENTE");
                                     }else{
-                                        $maxid = $sqli->prepare("SELECT MAX(idRusers) AS id_max FROM Rusers");
+                                        $maxid = Connect::ObtainInstance()->prepare("SELECT MAX(idRusers) AS id_max FROM Rusers");
                                         if(!$maxid->execute()){
                                             echo htmlspecialchars("Error asociado con el usuario");
                                         }else{
                                             $row = $maxid->fetchAll(PDO::FETCH_ASSOC);
                                             $idd = $row[0]['id_max'];
-                                            $update = $sqli->prepare("UPDATE Rusers SET Nopcel=:nl WHERE idRusers=:id");
+                                            $update = Connect::ObtainInstance()->prepare("UPDATE Rusers SET Nopcel=:nl WHERE idRusers=:id");
                                             $update->bindValue(':nl', NULL, PDO::PARAM_NULL);
                                             $update->bindValue(':id', $idd, PDO::PARAM_INT);
                                             if(!$update->execute()){
                                                 echo htmlspecialchars("Error de usuario");
                                             }else{
-                                                echo "<script> const mnje = document.getElementById('respo');
-                                                mnje.innerHTML = '<strong>" . htmlspecialchars("USUARIO REGISTRADO CORRECTAMENTE") . "</strong>';
-                                                mnje.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                                setTimeout(()=>{
-                                                    mnje.remove();
-                                                    window.location.href='../html/InicioSesion.php';
-                                                }, 5000)
-                                                 </script>";
+                                                vermsj("USUARIO REGISTRADO CORRECTAMENTE");
                                             }
                                         }
                                     }
                                 }  
                             }catch(Exception $e){
-                                echo htmlspecialchars("Inesperado error");
+                                error_log("INESPERADO ERROR: " . $e->getMessage());
+                                vermsj("VAYA OCURRIO UN INESPERADO ERRROR");
                             }                          
                         }
                     }
                 }    
             }catch(Exception $e){
-                die("ERROR INSEPERADO");
+                error_log("ERROR INESPERADO: " . $e->getMessage());
+                vermsj("VAYA OCURRIO UN ERROR INESPERADO");
             }
         ?>
     </div>
