@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 20-10-2024 a las 07:22:27
+-- Tiempo de generación: 24-10-2024 a las 20:10:41
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -148,6 +148,13 @@ CREATE TABLE `Rusers` (
   `Pass` varchar(255) NOT NULL,
   `idRol` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `Rusers`
+--
+
+INSERT INTO `Rusers` (`idRusers`, `Pname`, `Sname`, `Psname`, `Ssname`, `idTpdoc`, `Ndoc`, `Fbirth`, `Fcreation`, `Edad`, `Address`, `Ncel`, `Barrio`, `Nopcel`, `Email`, `idCiudad`, `Pass`, `idRol`) VALUES
+(1, 'Cosme', NULL, 'Fulanito', NULL, 1, '44B13E0BA941FFE7F871EC9F543A78C8', '1999-05-10', '2024-10-24', 25, 'Carrera 28sur', 3150813055, 'San Carlos', NULL, '3AEC79FB64EE5FAEFF5D1FFA9C9130370EAD8CB6C7EF2FF1097182FA5BF61553', 1, '$2y$10$D2ekHQ6UcRxNTBlbc.d.O.E8tAlSiU8wGB2BSsSmV6RS2j/4TydGe', 3);
 
 -- --------------------------------------------------------
 
@@ -302,7 +309,7 @@ ALTER TABLE `Rpets`
 -- AUTO_INCREMENT de la tabla `Rusers`
 --
 ALTER TABLE `Rusers`
-  MODIFY `idRusers` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idRusers` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `Strilpets`
