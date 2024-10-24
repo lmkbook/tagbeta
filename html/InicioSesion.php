@@ -49,58 +49,7 @@
         </div>
     </div>
     <div id="rpt">
-        <?php
         
-            function mens($message){
-                echo "<script> msj = document.getElementById('rpt');
-                msj.innerHTML = '<strong>" . htmlspecialchars($message) . "</strong>';
-                setTimeout(()=>{
-                    msj.remove();
-                }, 5000) </script>";
-            }
-
-            if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["fuesese"])=== true){
-                include_once('../model/connect.php');
-                include_once('../model/segurity.php');
-                $user = $_POST["correo"];
-                $pass = $_POST["contra"];
-                $mailhas = MAILHASH;
-                $qury = $sqli->prepare("SELECT `idRusers`, AES_DECRYPT(UNHEX(Email), :pss), `Pass`, `Rol` FROM `Rusers` WHERE AES_DECRYPT(UNHEX(Email), :pss)=:mail");
-                $qury->bindParam(':pss', $mailhas, PDO::PARAM_STR);
-                $qury->bindParam(':pss', $mailhas, PDO::PARAM_STR);
-                $qury->bindParam(':mail', $user, PDO::PARAM_STR);
-                if(!$qury->execute()){
-                    mens("Error al ejecutar la consulta");
-                }else{
-                    $row = $qury->fetch(PDO::FETCH_ASSOC);
-                    $id = $row['idRusers'];
-                    $pasword = $row['Pass'];
-                    $rol = $row['Rol'];
-                    $menssge = "Credenciales incorrectas";
-                    if($row === false || !password_verify($pass, $pasword)){
-                        mens($menssge);
-                    }else{
-                        switch($rol){
-                            case 'Usuario':
-                                header('Location: ../html/PaginaInicioSesionOn.html');
-                                exit();
-                                break;
-                            case 'Administrador':
-                                header('Location: ../html/paginaadmin.html');
-                                exit();
-                                break;
-                            case 'Moderador':
-                                header('Location: ../html/paginamoder.html');
-                                exit();
-                                break;
-                            default:
-                                mens("Rol no identificado");
-                                break;
-                        }
-                    }
-                }
-            }
-        ?>
     </div>
     <script src="../javascript/InicioSesion.js"></script> <!-- Enlace al JavaScript -->
     <script src="../javascript/slider.js"></script> 
