@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 24-10-2024 a las 20:10:41
+-- Tiempo de generación: 25-10-2024 a las 07:06:30
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -37,8 +37,14 @@ CREATE TABLE `Ciudad` (
 --
 
 INSERT INTO `Ciudad` (`idCiudad`, `Nombre`) VALUES
-(1, 'BOGOTA'),
-(2, 'SOACHA');
+(8, 'Barranquilla'),
+(1, 'Bogotá'),
+(5, 'Bucaramanga'),
+(4, 'Cali'),
+(7, 'Medellín'),
+(6, 'Neiva'),
+(3, 'Pasto'),
+(2, 'Soacha');
 
 -- --------------------------------------------------------
 
@@ -185,9 +191,9 @@ CREATE TABLE `Tpdoc` (
 --
 
 INSERT INTO `Tpdoc` (`idTpdoc`, `Abrviatra`, `Nombre`) VALUES
-(1, 'CC', 'CEDULA DE CIUDADANIA'),
-(2, 'PP', 'PASAPORTE'),
-(3, 'CE', 'CEDULA DE EXTRANJERIA');
+(1, 'CC', 'Cédula de ciudadanía'),
+(2, 'PP', 'Pasaporte'),
+(3, 'CE', 'Cédula de extranjería');
 
 --
 -- Índices para tablas volcadas
@@ -273,7 +279,7 @@ ALTER TABLE `Tpdoc`
 -- AUTO_INCREMENT de la tabla `Ciudad`
 --
 ALTER TABLE `Ciudad`
-  MODIFY `idCiudad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idCiudad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `Fchpets`
