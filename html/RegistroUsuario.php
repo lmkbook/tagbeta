@@ -39,10 +39,24 @@
 
                 <label for="tpdc"><strong>Tipo de Documento  <strong class="red">*</strong></strong></label>
                 <select id="tpdc" name="doctis" required onchange="validateDocumentType()">
-                    <option value="">-</option>
-                    <option value="CC">Cédula de Ciudadanía</option>
-                    <option value="Pasaporte">Pasaporte</option>
-                    <option value="CEX">Cédula de Extranjería</option>
+                    <?php
+                        try{
+                            include_once('../model/connect.php');
+                            $cdel = Connect::ObtainInstance()->prepare("SELECT `idTpdoc`, `Nombre` FROM `Tpdoc` ORDER BY `Nombre` ASC");
+                            if(!$cdel->execute()){
+                                echo "<option value='" . htmlspecialchars(trim('-')) . "'>" . htmlspecialchars(trim('No ha establecido nada')) . "</option>"; 
+                            }else{
+                                $svaerow = $cdel->fetchAll(PDO::FETCH_ASSOC);
+                                echo "<option value='" . htmlspecialchars(trim('-')) . "'>" . htmlspecialchars(trim('-')) . "</option>";
+                                foreach($svaerow as $rowsave){
+                                    echo "<option value='" . htmlspecialchars(trim($rowsave['idTpdoc'])) . "'>" . htmlspecialchars(trim($rowsave['Nombre'])) . "</option>";
+                                }
+                            }
+                        }catch(Exception $e){
+                            error_log("Ocurrio un error: " . $e->getMessage());
+                            die("Error");
+                        }
+                    ?>
                 </select><br>
 
                 <label for="cel"><strong>Número de Documento  <strong class="red">*</strong></strong></label>
@@ -71,9 +85,24 @@
 
                 <label for="ciu"><strong>Ciudad  <strong class="red">*</strong></strong></label>
                 <select id="ciu" name="ciudad" required>
-                    <option value="">-</option>
-                    <option value="Bogotá">Bogotá</option>
-                    <option value="Soacha">Soacha</option>
+                    <?php
+                        try{
+                            include_once('../model/connect.php');
+                            $ciiu = Connect::ObtainInstance()->prepare("SELECT * FROM `Ciudad` ORDER BY `Nombre` ASC");
+                            if(!$ciiu->execute()){
+                                echo "<option value='" . htmlspecialchars(trim('-')) . "'>" . htmlspecialchars(trim('No establecido nada')) . "</option>"; 
+                            }else{
+                                $syti = $ciiu->fetchAll(PDO::FETCH_ASSOC);
+                                echo "<option value='" . htmlspecialchars(trim('-')) . "'>" . htmlspecialchars(trim('-')) . "</option>";
+                                foreach($syti as $ticy){
+                                    echo "<option value='" . htmlspecialchars(trim($ticy['idCiudad'])) . "'>" . htmlspecialchars(trim($ticy['Nombre'])) . "</option>";
+                                }
+                            }
+                        }catch(Exception $e){
+                            error_log("Ocurrio un error: " . $e->getMessage());
+                            die("Error");
+                        }
+                    ?>
                 </select><br>
 
                 <label for="pass"><strong>Contraseña  <strong class="red">*</strong></strong></label>
@@ -178,31 +207,7 @@
                         if($query->rowCount() >= 1){
                             mjsjj("EXISTE UN DATO DUPLICADO");
                         }else{
-                            switch($doctip){
-                                case "CC":
-                                    $Idtpdoc = 1;
-                                    break;
-                                case "Pasaporte":
-                                    $Idtpdoc = 2;
-                                    break;
-                                case "CEX":
-                                    $Idtpdoc = 3;
-                                    break;
-                                default:
-                                    echo htmlspecialchars("No selecciono ningun tipo de documento");
-                                    break;
-                            }
-                            switch($city){
-                                case "Bogotá":
-                                    $idCity = 1;
-                                    break;
-                                case "Soacha":
-                                    $idCity = 2;
-                                    break;
-                                default:
-                                    echo htmlspecialchars("NO HA SELECCIONADO NINGUNA CIUDAD");
-                                    break;
-                            }
+                          
                             try{
                                 $hash = password_hash($pass, PASSWORD_DEFAULT);
                                 $insert = Connect::ObtainInstance()->prepare("INSERT INTO `Rusers`
@@ -213,7 +218,7 @@
                                 $insert->bindValue(':vl2', $twoname, $twoname === null ? PDO::PARAM_NULL : PDO_::PARAM_STR);
                                 $insert->bindValue(':vl3', $onesurname, PDO::PARAM_STR);
                                 $insert->bindValue(':vl4', $twosurname, $twosurname === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
-                                $insert->bindValue(':vl5', $Idtpdoc, PDO::PARAM_INT);
+                                $insert->bindValue(':vl5', $doctip, PDO::PARAM_INT);
                                 $insert->bindValue(':vl6', $numdoc, PDO::PARAM_STR);
                                 $insert->bindValue(':dochash', $dochash, PDO::PARAM_STR);
                                 $insert->bindValue(':vl7', $fechnaci, PDO::PARAM_STR);
@@ -224,7 +229,7 @@
                                 $insert->bindValue(':vl12', $altercel, $altercel === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
                                 $insert->bindValue(':vl13', $email, PDO::PARAM_STR);
                                 $insert->bindValue(':hasmail', $mailhash, PDO::PARAM_STR);
-                                $insert->bindValue(':vl14', $idCity, PDO::PARAM_INT);
+                                $insert->bindValue(':vl14', $city, PDO::PARAM_INT);
                                 $insert->bindValue(':vl15', $hash, PDO::PARAM_STR);
                                 if(!$insert->execute()){
                                     echo htmlspecialchars("Error al insertar los datos");
@@ -251,14 +256,14 @@
                                 }  
                             }catch(Exception $e){
                                 error_log("INESPERADO ERROR: " . $e->getMessage());
-                                vermsj("VAYA OCURRIO UN INESPERADO ERRROR");
+                                mjsjj("VAYA OCURRIO UN INESPERADO ERRROR");
                             }                          
                         }
                     }
                 }    
             }catch(Exception $e){
                 error_log("ERROR INESPERADO: " . $e->getMessage());
-                vermsj("VAYA OCURRIO UN ERROR INESPERADO");
+                mjsjj("VAYA OCURRIO UN ERROR INESPERADO");
             }
         ?>
     </div>
