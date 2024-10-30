@@ -1,21 +1,34 @@
 <?php
+session_start();
 include('../html/conexion.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $latitud = $_POST['latitud'];
-    $longitud = $_POST['longitud'];
-    $descripcion = $_POST['descripcion'];
-    $fecha_perdida = $_POST['fecha_perdida'];
-    $hora_perdida = $_POST['hora_perdida'];
-    // Otros datos...
+    // Verificar si es un reporte de mascota perdida o encontrada
+    $tipo_reporte = $_POST["tipo_reporte"]; // 'perdida' o 'encontrada'
+    $id_mascota = $_POST["id_mascota"];
+    $descripcion = $_POST["descripcion"];
+    $latitud = $_POST["latitud"];
+    $longitud = $_POST["longitud"];
+    $contacto = $_POST["contacto"];
+    $fecha = $_POST["fecha_reporte"];
+    $hora = $_POST["hora_reporte"];
 
-    $query = $nsql->prepare("INSERT INTO ReportesMascotasPerdidas (latitud, longitud, descripcion, fecha_perdida, hora_perdida) VALUES (?, ?, ?, ?, ?)");
-    $query->bind_param("ddsss", $latitud, $longitud, $descripcion, $fecha_perdida, $hora_perdida);
-    
-    if ($query->execute()) {
-        echo json_encode(['success' => true]);
+    // Preparar e insertar el reporte en la tabla `reportes_mascotas`
+    $stmt = $nsql->prepare("
+        INSERT INTO reportes_mascotas (id_mascota, descripcion, fecha, hora, latitud, longitud, contacto, estado)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ");
+    $stmt->bind_param("isssddss", $id_mascota, $descripcion, $fecha, $hora, $latitud, $longitud, $contacto, $tipo_reporte);
+
+    // Ejecutar la consulta y manejar el resultado
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true, 'message' => "Reporte de mascota $tipo_reporte guardado exitosamente"]);
     } else {
-        echo json_encode(['success' => false, 'error' => 'Error al guardar el reporte.']);
+        echo json_encode(['success' => false, 'message' => 'Error al guardar el reporte']);
     }
+
+    $stmt->close();
+    $nsql->close();
 }
 ?>
+
