@@ -1,13 +1,17 @@
 let map;
-let markers = [];
+let allMarkers = [];
+let markersPerdidas = [];
+let markersEncontradas = [];
 
 function initMap() {
-    // Crear el mapa centrado en Bogotá
-    const bogota = { lat: 4.6097, lng: -74.0817 };
-    map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 12,
-        center: bogota,
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 4.7110, lng: -74.0721 }, // Centro en Bogotá, Colombia
+        zoom: 12
     });
+    
+    // Cargar pines de mascotas desde la API
+    fetchMascotasData();
+
 
     // Datos de los pines de ejemplo
     const markerData = [
@@ -20,6 +24,42 @@ function initMap() {
         { lat: 4.6672, lng: -74.1123, type: 'found', description: 'Perro pequeño de color marrón claro encontrado en el sector de Usaquén. Lleva un collar rojo.', date: '2024-10-18' },
         { lat: 4.6417, lng: -74.0791, type: 'found', description: 'Pastor alemán adulto encontrado en el Parque de la Independencia. Muy dócil y tranquilo.', date: '2024-10-17' }
     ];
+
+        // Llamar a la función para cargar todos los pines en el mapa
+        loadPins();
+    }
+    
+    // Función para cargar pines desde la base de datos
+    function loadPins() {
+        fetch('../html/get_pins.php')
+        .then(response => response.json())
+        .then(pins => {
+            pins.forEach(pin => {
+                const position = { lat: parseFloat(pin.latitud), lng: parseFloat(pin.longitud) };
+                const marker = new google.maps.Marker({
+                    position: position,
+                    map: map,
+                    title: pin.nombre,
+                    icon: pin.tipo === 'perdida' ? 'red-icon-url' : 'green-icon-url' // Ajusta según el tipo
+                });
+                
+                const infoWindow = new google.maps.InfoWindow({
+                    content: `<h3>${pin.nombre}</h3><p>${pin.descripcion}</p>`
+                });
+
+                marker.addListener('click', () => {
+                    infoWindow.open(map, marker);
+                });
+
+                if (pin.tipo === 'perdida') {
+                    lostPetsMarkers.push(marker);
+                } else {
+                    foundPetsMarkers.push(marker);
+                }
+            });
+        })
+        .catch(error => console.error('Error loading pins:', error));
+}
 
     // Crear y almacenar los marcadores en el mapa
     markerData.forEach((data) => {
@@ -46,7 +86,7 @@ function initMap() {
         // Guardar el marcador en el array markers
         markers.push(marker);
     });
-}
+
 
 // Función para filtrar los pines según el tipo
 function filterPins(type) {
@@ -62,6 +102,4 @@ function filterPins(type) {
 // Función para mostrar todos los pines
 function showAllPins() {
     filterPins('all');
-}
-
 }
