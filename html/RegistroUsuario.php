@@ -215,7 +215,7 @@
                                 VALUES
                                 (:vl1, :vl2, :vl3, :vl4, :vl5, HEX(AES_ENCRYPT(:vl6, :dochash)), :vl7, :vl8, :vl9, :vl10, :vl11, :vl12, HEX(AES_ENCRYPT(:vl13, :hasmail)), :vl14, :vl15)");
                                 $insert->bindValue(':vl1', $onename, PDO::PARAM_STR);
-                                $insert->bindValue(':vl2', $twoname, $twoname === null ? PDO::PARAM_NULL : PDO_::PARAM_STR);
+                                $insert->bindValue(':vl2', $twoname, $twoname === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
                                 $insert->bindValue(':vl3', $onesurname, PDO::PARAM_STR);
                                 $insert->bindValue(':vl4', $twosurname, $twosurname === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
                                 $insert->bindValue(':vl5', $doctip, PDO::PARAM_INT);
