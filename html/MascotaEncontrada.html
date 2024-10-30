@@ -43,21 +43,17 @@
                 <h2>Notificación de Mascota Encontrada</h2>
             </div>
             <div id="container2">
-                <form method="POST" action="#" id="frm">
-                    <label for="pet_id">ID de la Mascota *</label>
-                    <input type="text" id="pet_id" placeholder="ID de la Mascota" maxlength="10" required><br>
-
-                    <label for="pet_name">Nombre de la Mascota *</label>
-                    <input type="text" id="pet_name" placeholder="Nombre de la Mascota" maxlength="50" required><br>
-
-                    <label for="description">Descripción *</label>
-                    <textarea id="description" placeholder="Descripción de la mascota" maxlength="500" required></textarea><br>
-
-                    <label for="photos">Fotos de la Mascota</label>
-                    <input type="file" id="photos" accept="image/*" multiple><br>
-
-                    <label for="location">Lugar donde se encontró *</label>
-                    <div id="map" style="height: 400px;"></div><br>
+                <form id="reporteEncontradaForm">
+                    <label for="id_mascota">ID de Mascota (si aplica)</label>
+                    <input type="text" id="id_mascota" name="id_mascota"><br>
+        
+                    <label for="descripcion">Descripción de la Mascota</label>
+                    <textarea id="descripcion" name="descripcion" required></textarea><br>
+        
+                    <label for="location">Lugar donde se encontró</label>
+                    <div id="map" style="height: 400px;"></div>
+                    <input type="hidden" id="latitud" name="latitud">
+                    <input type="hidden" id="longitud" name="longitud"><br>
 
                     <label for="contact_name">Tu Nombre *</label>
                     <input type="text" id="contact_name" placeholder="Tu Nombre" maxlength="50" required><br>
@@ -82,7 +78,7 @@
 
     <script src="../javascript/slider.js"></script>
     <script src="../javascript/MascotaEncontrada.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmXFdiO3WTIWBUz1PS1xZHutNnmi_cFDM&callback=initMap" async defer></script>
     <script src="../javascript/footer.js"></script>
 </body>
 </html>
