@@ -44,43 +44,30 @@
                 <h2>Reporte de Mascota Perdida</h2>
             </div>
             <div id="container2">
-                <form method="POST" action="#" id="frm">
-                    <label for="pet_name"><strong>Nombre de Mascota *</strong></label>
-                    <select id="pet_name" required>
-                        <option value="">Selecciona una Mascota</option>
-                        <!-- Aquí se llenará dinámicamente con las mascotas registradas del usuario -->
-                    </select><br>
+                <h2>Reporte de Mascota Perdida</h2>
+        <form id="reportePerdidaForm">
+            <label for="id_mascota">ID de Mascota</label>
+            <input type="text" id="id_mascota" name="id_mascota" required><br>
 
-                    <label for="fecha_perdida"><strong>Fecha de Pérdida *</strong></label>
-                    <input type="date" id="fecha_perdida" required><br>
+            <label for="descripcion">Descripción de la Mascota</label>
+            <textarea id="descripcion" name="descripcion" required></textarea><br>
 
-                    <label for="hora_perdida"><strong>Hora de Pérdida *</strong></label>
-                    <input type="time" id="hora_perdida" required><br>
+            <label for="fecha_perdida">Fecha de Pérdida</label>
+            <input type="date" id="fecha_perdida" name="fecha_reporte" required><br>
 
-                    <label for="ubicacion"><strong>Última Ubicación Vista *</strong></label>
-                    <input type="text" id="ubicacion" placeholder="DIRECCIÓN O LUGAR" required><br>
+            <label for="hora_perdida">Hora de Pérdida</label>
+            <input type="time" id="hora_perdida" name="hora_reporte" required><br>
 
-                    <label for="tipo_mascota"><strong>Tipo de Mascota *</strong></label>
-                    <select id="tipo_mascota" required>
-                        <option value="Perro">Perro</option>
-                        <option value="Gato">Gato</option>
-                    </select><br>
+            <label for="location">Lugar de Pérdida</label>
+            <div id="map" style="height: 400px;"></div>
+            <input type="hidden" id="latitud" name="latitud">
+            <input type="hidden" id="longitud" name="longitud"><br>
 
-                    <label for="descripcion"><strong>Descripción *</strong></label>
-                    <textarea id="descripcion" placeholder="DESCRIPCIÓN DE LA MASCOTA" required></textarea><br>
+            <label for="contacto">Información de Contacto</label>
+            <input type="text" id="contacto" name="contacto" required><br>
 
-                    <label for="location"><strong></strong>Lugar donde se perdio *</strong></strong></label>
-                    <div id="map" style="height: 400px;"></div><br>
-
-                    <input type="hidden" id="latitud" name="latitud">
-                    <input type="hidden" id="longitud" name="longitud">
-
-
-                    <label for="fotografias">Fotografías Recientes</label>
-                    <input type="file" id="fotografias" multiple><br>
-
-                    <input type="submit" value="ENVIAR REPORTE" name="finalize">
-                </form>
+            <button type="submit">Enviar Reporte</button>
+        </form>
                 <p class="required-note"><strong>*</strong> Campo obligatorio</p>
             </div>
         </div>
@@ -99,3 +86,5 @@
     <script src="../javascript/footer.js"></script>
 </body>
 </html>
+
+
