@@ -1,73 +1,24 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar el mapa
-    initMap();
-});
-
 function initMap() {
-    // Configuración inicial del mapa en Bogotá, Colombia
-    var map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 4.7110, lng: -74.0721 }, // Bogotá
-        zoom: 12
+    const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 8,
+        center: { lat: 4.610, lng: -74.083 }, // Coordenadas de Bogotá
+        
     });
 
-    // Colocar un marcador en el centro inicial del mapa (Bogotá)
-    var marker = new google.maps.Marker({
-        position: map.getCenter(),
+    // Añadir un marcador
+    const marker = new google.maps.Marker({
+        position: { lat: 4.610, lng: -74.083 },
         map: map,
         draggable: true,
-        title: 'Lugar de la Mascota Perdida'
-    });
 
-    // Escuchar el evento de finalización del arrastre del marcador
+    });
+    //Interactuar con el marcador
     google.maps.event.addListener(marker, 'dragend', function() {
-        var latLng = marker.getPosition();
-        document.getElementById('latitud').value = latLng.lat();
-        document.getElementById('longitud').value = latLng.lng();
+        var position = marker.getPosition();
+        const lt = document.getElementById('latitud').value = position.lat();
+        const lg =document.getElementById('longitud').value = position.lng();
+        console.log("Cordenadas: " + lt + " " + lg);
     });
-}
 
-// Manejo de envío de formulario
-document.getElementById('reportePerdidaForm').addEventListener('submit', function(event) {
-    event.preventDefault();  // Evitar recarga de la página
-
-    // Crear un objeto FormData para capturar los datos del formulario
-    const formData = new FormData(document.getElementById('reportePerdidaForm'));
-    formData.append('tipo_reporte', 'perdida');
-
-    // Enviar la solicitud POST al archivo PHP de procesamiento
-    fetch('../backend/procesar_reporte.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-        if (data.success) location.reload();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Hubo un problema al conectar con el servidor');
-    });
-});
-
-// Redireccionamiento a secciones específicas
-function goToProfile() {
-    window.location.href = 'user_profile.html';
-}
-
-function goToMessages() {
-    window.location.href = 'foro.html';
-}
-
-function showNotification() {
-    document.getElementById('notification-popup').style.display = 'block';
-}
-
-function viewNotification() {
-    window.location.href = 'notifications.html';
-}
-
-function dismissNotification() {
-    document.getElementById('notification-popup').style.display = 'none';
 }
 
