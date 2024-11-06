@@ -1,3 +1,4 @@
+/* Estilos base */
 body {
     background-color: #3B9C9C; 
     font-family: 'Montserrat', Arial, sans-serif;
@@ -10,11 +11,15 @@ body {
 }
 
 header {
-    background-color: #2F7F7F; /* Color más oscuro para el header */
+    background-color: #2F7F7F;
     padding: 10px 0;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/* Estilos para el menú de navegación */
 nav ul {
     list-style-type: none;
     margin: 0;
@@ -37,22 +42,19 @@ nav ul li a:hover {
     color: #FFA07A;
 }
 
+/* Contenedor del formulario */
 .formulario {
     border: 2px solid;
     padding: 20px;
     width: 300px;
-    top: -45px;
     position: relative;
     border-radius: 10px;
     margin: auto;
     background-color: white;
-    
+    display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    justify-content: center;
-    justify-items: center;
-    font-family: 'Montserrat', Arial, sans-serif;
     font-size: 18px;
     margin-top: 100px;
 }
@@ -67,7 +69,7 @@ h2 {
     color: #333;
     text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.7);
     margin-bottom: 10px;
-    font-size: 24px; /* Más grande para el texto de bienvenida */
+    font-size: 24px;
 }
 
 h3 {
@@ -77,7 +79,6 @@ h3 {
 }
 
 input[type="email"],
-input[type="text"],
 input[type="password"] {
     margin-bottom: 10px;
     width: 85%;
@@ -88,26 +89,26 @@ input[type="password"] {
     background: linear-gradient(45deg, #f0f0f0, #dcdcdc);
 }
 
-.icono {
+/* Icono de ojo para mostrar contraseña */
+#ojojo {
     position: absolute;
     right: 35px;
-    top: 8px;
+    top: 385px;
     cursor: pointer;
     opacity: 0.5;
 }
 
-.icono:hover {
+#ojojo:hover {
     opacity: 0.8;
 }
 
+/* Botón de iniciar sesión */
 .inicia {
     margin-top: 20px;
     width: 85%;
     padding: 10px;
-    box-sizing: border-box;
     border: none;
     border-radius: 5px;
-    font-family: 'Montserrat', Arial, sans-serif;
     font-weight: bold;
     background-color: #3B9C9C;
     color: white;
@@ -119,6 +120,7 @@ input[type="password"] {
     background-color: #FFA07A;
 }
 
+/* Enlace para "¿Olvidó su Contraseña?" */
 .olvido_password {
     margin-top: 20px;
     font-size: 12px;
@@ -134,24 +136,53 @@ input[type="password"] {
     text-decoration: underline;
 }
 
-#ojojo{
-    left: 780px;
-    top: 385px;
-    position: absolute;
-}
-.mens{
+/* Mensaje de error o confirmación */
+#rpt {
+    font-family: 'Montserrat', Arial, sans-serif;
     text-align: center;
-    justify-content: center;
-    justify-items: center;
-    top: 125px;
-    left: -375px;
-    font-family: 'Montserrat', Arial, sans-serif;
-    font-size: 30px;
-    position: relative;
+    margin-top: 10px;
+    color: #FF0000;
 }
-#rpt{
-    top: -345px;
-    left: -254px;
+
+/* Estilos del slider */
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.slider .slide {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slider .slide.active {
+    opacity: 1;
+}
+
+/* Footer */
+footer {
+    background-color: #2F7F7F;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    margin-top: auto;
+}
+
+.footer-text {
     font-family: 'Montserrat', Arial, sans-serif;
-    position: relative;
+    font-size: 13px;
+    color: #FFFFFF;
+    font-weight: normal;
+    text-decoration: none;
 }
