@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 25-10-2024 a las 07:06:30
+-- Tiempo de generación: 06-11-2024 a las 08:48:17
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -70,6 +70,14 @@ CREATE TABLE `Pets` (
   `Name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `Pets`
+--
+
+INSERT INTO `Pets` (`idPets`, `Name`) VALUES
+(2, 'Gato'),
+(1, 'Perro');
+
 -- --------------------------------------------------------
 
 --
@@ -80,7 +88,7 @@ CREATE TABLE `Repets` (
   `idRepets` int(11) NOT NULL,
   `idRusers` int(11) NOT NULL,
   `Petname` varchar(20) NOT NULL,
-  `idRpets` int(11) NOT NULL,
+  `Raza` varchar(40) DEFAULT NULL,
   `Peso` tinyint(4) NOT NULL,
   `Color` varchar(80) NOT NULL,
   `idStrilpets` tinyint(4) NOT NULL,
@@ -93,8 +101,22 @@ CREATE TABLE `Repets` (
   `Fpetone` longblob NOT NULL,
   `Fpetwo` longblob NOT NULL,
   `Fpetre` longblob NOT NULL,
-  `Fpetfor` longblob NOT NULL
+  `Fpetfor` longblob NOT NULL,
+  `idSx` tinyint(4) NOT NULL,
+  `idPets` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Disparadores `Repets`
+--
+DELIMITER $$
+CREATE TRIGGER `fchdog` AFTER INSERT ON `Repets` FOR EACH ROW BEGIN
+INSERT INTO Fchpets(idRusers, idRepets)
+VALUES
+(NEW.idRusers, NEW.idRepets);
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -115,18 +137,6 @@ INSERT INTO `Rol` (`idRol`, `Name`) VALUES
 (1, 'Usuario'),
 (2, 'Moderador'),
 (3, 'Administrador');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `Rpets`
---
-
-CREATE TABLE `Rpets` (
-  `idRpets` int(11) NOT NULL,
-  `idPets` int(11) NOT NULL,
-  `Raza` varchar(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -170,9 +180,37 @@ INSERT INTO `Rusers` (`idRusers`, `Pname`, `Sname`, `Psname`, `Ssname`, `idTpdoc
 
 CREATE TABLE `Strilpets` (
   `idStrilpets` tinyint(4) NOT NULL,
-  `Strilsi` tinyint(4) NOT NULL DEFAULT 1,
-  `Nostril` tinyint(4) NOT NULL DEFAULT 0
+  `Stril` varchar(2) DEFAULT NULL,
+  `Act` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `Strilpets`
+--
+
+INSERT INTO `Strilpets` (`idStrilpets`, `Stril`, `Act`) VALUES
+(1, 'SI', 1),
+(2, 'NO', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Sx`
+--
+
+CREATE TABLE `Sx` (
+  `idSx` tinyint(4) NOT NULL,
+  `Sex` varchar(10) NOT NULL,
+  `Mh` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `Sx`
+--
+
+INSERT INTO `Sx` (`idSx`, `Sex`, `Mh`) VALUES
+(1, 'Macho', 0),
+(2, 'Hembra', 1);
 
 -- --------------------------------------------------------
 
@@ -227,21 +265,16 @@ ALTER TABLE `Pets`
 ALTER TABLE `Repets`
   ADD PRIMARY KEY (`idRepets`),
   ADD KEY `idRusers` (`idRusers`),
-  ADD KEY `idRpets` (`idRpets`),
-  ADD KEY `idStrilpets` (`idStrilpets`);
+  ADD KEY `idRpets` (`Raza`),
+  ADD KEY `idStrilpets` (`idStrilpets`),
+  ADD KEY `idSx` (`idSx`),
+  ADD KEY `idPets` (`idPets`);
 
 --
 -- Indices de la tabla `Rol`
 --
 ALTER TABLE `Rol`
   ADD PRIMARY KEY (`idRol`);
-
---
--- Indices de la tabla `Rpets`
---
-ALTER TABLE `Rpets`
-  ADD PRIMARY KEY (`idRpets`),
-  ADD KEY `idPets` (`idPets`);
 
 --
 -- Indices de la tabla `Rusers`
@@ -261,8 +294,15 @@ ALTER TABLE `Rusers`
 --
 ALTER TABLE `Strilpets`
   ADD PRIMARY KEY (`idStrilpets`),
-  ADD UNIQUE KEY `Strilsi` (`Strilsi`),
-  ADD UNIQUE KEY `Nostril` (`Nostril`);
+  ADD UNIQUE KEY `Strilsi` (`Stril`);
+
+--
+-- Indices de la tabla `Sx`
+--
+ALTER TABLE `Sx`
+  ADD PRIMARY KEY (`idSx`),
+  ADD UNIQUE KEY `Sex` (`Sex`),
+  ADD UNIQUE KEY `Mh` (`Mh`);
 
 --
 -- Indices de la tabla `Tpdoc`
@@ -291,7 +331,7 @@ ALTER TABLE `Fchpets`
 -- AUTO_INCREMENT de la tabla `Pets`
 --
 ALTER TABLE `Pets`
-  MODIFY `idPets` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idPets` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `Repets`
@@ -306,12 +346,6 @@ ALTER TABLE `Rol`
   MODIFY `idRol` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `Rpets`
---
-ALTER TABLE `Rpets`
-  MODIFY `idRpets` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `Rusers`
 --
 ALTER TABLE `Rusers`
@@ -321,7 +355,13 @@ ALTER TABLE `Rusers`
 -- AUTO_INCREMENT de la tabla `Strilpets`
 --
 ALTER TABLE `Strilpets`
-  MODIFY `idStrilpets` tinyint(4) NOT NULL AUTO_INCREMENT;
+  MODIFY `idStrilpets` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `Sx`
+--
+ALTER TABLE `Sx`
+  MODIFY `idSx` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `Tpdoc`
@@ -345,14 +385,9 @@ ALTER TABLE `Fchpets`
 --
 ALTER TABLE `Repets`
   ADD CONSTRAINT `Repets_ibfk_1` FOREIGN KEY (`idRusers`) REFERENCES `Rusers` (`idRusers`),
-  ADD CONSTRAINT `Repets_ibfk_2` FOREIGN KEY (`idRpets`) REFERENCES `Rpets` (`idRpets`),
-  ADD CONSTRAINT `Repets_ibfk_3` FOREIGN KEY (`idStrilpets`) REFERENCES `Strilpets` (`idStrilpets`);
-
---
--- Filtros para la tabla `Rpets`
---
-ALTER TABLE `Rpets`
-  ADD CONSTRAINT `Rpets_ibfk_1` FOREIGN KEY (`idPets`) REFERENCES `Pets` (`idPets`);
+  ADD CONSTRAINT `Repets_ibfk_3` FOREIGN KEY (`idStrilpets`) REFERENCES `Strilpets` (`idStrilpets`),
+  ADD CONSTRAINT `Repets_ibfk_4` FOREIGN KEY (`idSx`) REFERENCES `Sx` (`idSx`),
+  ADD CONSTRAINT `Repets_ibfk_5` FOREIGN KEY (`idPets`) REFERENCES `Pets` (`idPets`);
 
 --
 -- Filtros para la tabla `Rusers`
