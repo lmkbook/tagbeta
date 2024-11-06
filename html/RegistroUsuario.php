@@ -153,7 +153,7 @@
                         setTimeout(()=>{
                             mnje.remove();
                             window.location.href = '../html/InicioSesion.php';
-                        }, 3000) </script>";
+                        }, 2500) </script>";
                     }
                     function mjsjj($msg){
                         echo "<script> const mnje = document.getElementById('respo');
