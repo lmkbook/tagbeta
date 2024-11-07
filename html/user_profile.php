@@ -11,25 +11,32 @@ if (!isset($_SESSION['iduser'])) {
 include_once('../model/connect.php');
 include_once('../model/segurity.php');
 
+function mjsjj($msg){
+    echo "<script> const mnje = document.getElementById('rptuser');
+        mnje.innerHTML = '<strong>" . htmlspecialchars(trim($msg)) . "</strong>';
+        mnje.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(()=>{
+            mnje.remove();
+        }, 5000) </script>";
+}
 // Obtener información del usuario
 try {
     $dochash = MAILHASH;
     $idUser = $_SESSION['iduser'];
-    $queryUser = Connect::ObtainInstance()->prepare("SELECT Pname, Email, Ncel FROM rusers WHERE idRusers = :id");
-    $queryUser->bindParam(':id', $idUser, PDO::PARAM_STR);
-    $queryUser->execute();
-    $userData = $queryUser->fetch(PDO::FETCH_ASSOC);
-
-    // Obtener las mascotas del usuario
-    $queryPets = Connect::ObtainInstance()->prepare("SELECT * FROM pets WHERE idPets = :id");
-    $queryPets->bindParam(':id', $idUser, PDO::PARAM_STR);
-    $queryPets->execute();
-    $petsData = $queryPets->fetchAll(PDO::FETCH_ASSOC);
-
+    $info = Connect::ObtainInstance()->prepare("SELECT `Pname`, AES_DECRYPT(UNHEX(`Email`), :mail) AS `email`, `Ncel` FROM `Rusers` WHERE idRusers = :id");
+    $info->bindParam(':mail', $dochash, PDO::PARAM_STR);
+    $info->bindParam(':id', $idUser, PDO::PARAM_INT);
+    if(!$info->execute()){
+        echo "error";
+    }else{
+        $save = $info->fetch(PDO::FETCH_ASSOC);
+        
+    }
 } catch (Exception $e) {
     echo "Error al obtener la información: " . $e->getMessage();
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -60,16 +67,23 @@ try {
                 <h2>Información Personal</h2>
                 <form id="personal-info-form" method="POST" action="update_user_info.php">
                     <label for="name">Nombre:</label>
-                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($userData['Pname']); ?>"><br>
+                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($save['Pname']); ?>"><br>
 
                     <label for="email">Correo Electrónico:</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($userData['Email']); ?>"><br>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($save['email']); ?>"><br>
 
                     <label for="phone">Número de Teléfono:</label>
-                    <input type="tel" id="phone" name="phone" value="<?php echo htmlspecialchars($userData['Ncel']); ?>"><br>
+                    <input type="tel" id="phone" name="phone" value="<?php echo htmlspecialchars($save['Ncel']); ?>"><br>
 
-                    <button type="submit">Guardar Cambios</button>
+                    <button type="submit" name="actuser">Guardar Cambios</button>
                 </form>
+                <div id="rptuser"> <!-- Manejo respuesta de informacion del usuario -->
+                    <?php
+                        if(isset($_SESSION['actuExito'])){
+                            mjsjj("Los datos del usuario han sido actualizados correctamente.");
+                        }
+                    ?>
+                </div>
             </div>
 
             <!-- Cambio de contraseña -->
@@ -107,7 +121,9 @@ try {
                         <input type="hidden" name="pet_id" id="pet_id" value="">
 
                         <label for="pet_name">Nombre:</label>
-                        <input type="text" id="pet_name" name="pet_name" value=""><br>
+                        <select name="nmasc">
+                            <option>-</option>
+                        </select><br>
 
                         <label for="pet_color">Color:</label>
                         <input type="text" id="pet_color" name="pet_color" value=""><br>
