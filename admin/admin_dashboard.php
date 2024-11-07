@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,11 +18,47 @@
         <section class="stats">
             <div class="stat-box">
                 <h2>Usuarios Registrados</h2>
-                <p id="user-count">150</p> <!-- Este número se actualizaría dinámicamente -->
+                <p id="user-count">
+                    <?php
+                        try{
+                            include_once('../model/connect.php');
+                            include_once('../model/segurity.php');
+                            $nuUSer = Connect::ObtainInstance()->prepare("SELECT COUNT(idRusers) - 1 AS UTotal FROM Rusers");
+                            if(!$nuUSer->execute()){
+                                $error = $nuUSer->errorInfo();
+                                echo htmlspecialchars(trim("Error en la consulta: " . $error[2]));
+                            }else{
+                                $usernum = $nuUSer->fetch(PDO::FETCH_ASSOC);
+                                echo htmlspecialchars(trim($usernum['UTotal']));
+                            }
+                        }catch(Exception $e){
+                            error_log("Ourrio un error inesperado en los totales de los usuarios" . $e->getMessage());
+                            echo htmlspecialchars(trim("Ocurrio un error"));
+                        }
+                    ?>
+                </p> <!-- Este número se actualizaría dinámicamente -->
             </div>
             <div class="stat-box">
                 <h2>Mascotas Registradas</h2>
-                <p id="pet-count">80</p> <!-- Este número se actualizaría dinámicamente -->
+                <p id="pet-count">
+                    <?php
+                        try{
+                            include_once('../model/connect.php');
+                            include_once('../model/segurity.php');
+                            $nuUSer = Connect::ObtainInstance()->prepare("SELECT COUNT(idRepets) AS TotalR FROM Repets");
+                            if(!$nuUSer->execute()){
+                                $error = $nuUSer->errorInfo();
+                                echo htmlspecialchars(trim("Error en la consulta: " . $error[2]));
+                            }else{
+                                $usernum = $nuUSer->fetch(PDO::FETCH_ASSOC);
+                                echo htmlspecialchars(trim($usernum['TotalR']));
+                            }
+                        }catch(Exception $e){
+                            error_log("Ourrio un error inesperado en los totales de mascota " . $e->getMessage());
+                            echo htmlspecialchars(trim("Ocurrio un error"));
+                        }
+                    ?>
+                </p> <!-- Este número se actualizaría dinámicamente -->
             </div>
             <div class="stat-box">
                 <h2>Alertas Activas</h2>
