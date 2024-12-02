@@ -1,25 +1,17 @@
-// window.onload = function() {
-//     // Cargar datos almacenados en Local Storage
-//     document.getElementById('names').value = localStorage.getItem('userName');
-//     document.getElementById('surname').value = localStorage.getItem('userSurname');
-//     document.getElementById('mail').value = localStorage.getItem('userEmail');
-//     document.getElementById('ciu').value = localStorage.getItem('userCity');
+window.onload = function() {
+    generatePetID();
+};
 
-// //     // Generar ID de mascota único
-// //     generatePetID();
+// Función para generar un ID alfanumérico de 6 caracteres
 
-// //     updateRazaOptions(); // Inicializa las opciones de raza
-// // };
-
-// // // // Función para generar un ID alfanumérico de 6 caracteres
-// // // function generatePetID() {
-// // //     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-// // //     let petID = '';
-// // //     for (let i = 0; i < 6; i++) {
-// // //         petID += characters.charAt(Math.floor(Math.random() * characters.length));
-// // //     }
-// // //     document.getElementById('pet_id').value = petID;
-// // // }
+function generatePetID() {
+    const characters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789';
+    let petID = '';
+    for (let i = 0; i < 20; i++) {
+        petID += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    document.getElementById('pet_id').value = petID;
+}
 
 // function updateRazaOptions() {
 //     const tipoMascota = document.getElementById('tipo_mascota').value;
@@ -58,12 +50,10 @@
 //     });
 // }
 
-// function saveAndResetForm() {
-//     const form = document.getElementById('frm');
-//     form.reset();
+function saveAndResetForm() {
+   const form = document.getElementById('frm');
+    form.reset();
 
-//     // Generar un nuevo ID de mascota único para la siguiente mascota
-//     generatePetID();
-// }
-// const tipoMascota = document.getElementById('tipo_mascota').value;
-// console.log(tipoMascota);
+    // Generar un nuevo ID de mascota único para la siguiente mascota
+    generatePetID();
+}

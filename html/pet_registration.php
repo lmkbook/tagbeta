@@ -1,21 +1,14 @@
 <?php
+    include_once('../model/connect.php');
+    include_once('../model/segurity.php');
     // FUNCION PARA ACCEDER A LAS FOTOS
-    function carimg($_fil) { 
-        $ary = array();
-        foreach ($_fil as $campo => $info) { 
-            foreach ($info['name'] as $index => $filName) { 
-                $ary[$campo][$index] = array(
-                    'name' => $info['name'][$index],
-                    'type' => $info['type'][$index],
-                    'tmp_name' => $info['tmp_name'][$index],
-                    'error' => $info['error'][$index],
-                    'size' => $info['size'][$index],
-                );
-            }
-        }
-        return $ary;
-    }    
-
+       
+    function mjsjj($msg) {
+        echo "<script> const mnje = document.getElementById('resp');
+            mnje.innerHTML = '<strong>" . htmlspecialchars(trim($msg)) . "</strong>';
+            mnje.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(()=>{ mnje.remove(); }, 5000); </script>";
+    }
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
@@ -64,7 +57,7 @@
                 <h2>REGISTRO DE MASCOTA</h2>
             </div>
             <div id="container2">
-            <form method="POST" action="#" id="frm" enctype="multipart/form-data">
+            <form method="POST" action="../controller/registration_pet.php" id="frm" enctype="multipart/form-data">
                 <!-- Formulario de entrada -->
                 <label for="names"><strong>Nombre(s) Propietario <strong id="ff">*</strong></strong></label>
                 <input type="text" id="names" readonly value="<?php echo htmlspecialchars(trim(ucfirst(strtolower($_SESSION['name'])))) ?>"><br>
@@ -90,7 +83,9 @@
                     <option value="1">Perro</option>
                     <option value="2">Gato</option>
                 </select><br>
-
+                <label><stron>ID unico de la mascota</stron>
+                <input type="text" onclick="generatePetID()" id="pet_id" name="idUnic"><br>
+                <p>Este ID es unico y sera el identificador para poder reconecer a una mascota en caso de perdida</p><br>
                 <label for="otra_raza"><strong>Especificar Raza <strong id="ff">*</strong></strong></label>
                 <input type="text" id="otra_raza" name="raza" maxlength="20" pattern="[A-Za-z\s]+"><br>
 
@@ -147,84 +142,42 @@
                 <input type="submit" value="FINALIZAR REGISTRO" name="finalize">
             </form>
 
-            <div id="resp">
-                <?php
-                    try {
-                        function mjsjj($msg) {
-                            echo "<script> const mnje = document.getElementById('resp');
-                                mnje.innerHTML = '<strong>" . htmlspecialchars(trim($msg)) . "</strong>';
-                                mnje.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                setTimeout(()=>{ mnje.remove(); }, 5000); </script>";
-                        }
-                        if ($_SERVER["REQUEST_METHOD"] === 'POST' && isset($_POST['finalize'])) {
-                            $name = $_POST['ptname'] ?? null;
-                            $tpMasc = $_POST['tpmac'] ?? null;
-                            $raz = $_POST['raza'] ?? null;
-                            $peso = $_POST['weight'] ?? null;
-                            $color = $_POST['clor'] ?? null;
-                            $sexo = $_POST['sex'] ?? null;
-                            $steril = $_POST['stril'] ?? null;
-                            $edad = $_POST['age'] ?? null;
-                            $meses = $_POST['months'] ?? null;
-                            $disiase = $_POST['enfer'] ?? null;
-
-                            if (!isset($_FILES['bacu']) && !isset($_FILES['dog'])) {
-                                mjsjj("No existe ninguna foto");
-                            } else {
-                                try {
-                                    $imgs = carimg($_FILES);
-                                    $bacuOne = isset($imgs['bacu'][0]['tmp_name']) ? file_get_contents($imgs['bacu'][0]['tmp_name']) : null;
-                                    $bacuTwo = isset($imgs['bacu'][1]['tmp_name']) ? file_get_contents($imgs['bacu'][1]['tmp_name']) : null;
-                                    $bacuTree = isset($imgs['bacu'][2]['tmp_name']) ? file_get_contents($imgs['bacu'][2]['tmp_name']) : null;
-                                    $oneDog = isset($imgs['dog'][0]['tmp_name']) ? file_get_contents($imgs['dog'][0]['tmp_name']) : null;
-                                    $twoDog = isset($imgs['dog'][1]['tmp_name']) ? file_get_contents($imgs['dog'][1]['tmp_name']) : null;
-                                    $treeDog = isset($imgs['dog'][2]['tmp_name']) ? file_get_contents($imgs['dog'][2]['tmp_name']) : null;
-                                    $forDog = isset($imgs['dog'][3]['tmp_name']) ? file_get_contents($imgs['dog'][3]['tmp_name']) : null;
-
-                                    $sqli = Connect::ObtainInstance()->prepare("INSERT INTO `Repets`
-                                    (`idRusers`, `Petname`, `Raza`, `Peso`, `Color`, `idStrilpets`, `Edad`, `Meses`, `Foncarnet`, `Ftoncarnet`, `Ftrecarnet`, `Disease`, `Fpetone`, `Fpetwo`, `Fpetre`, `Fpetfor`, `idSx`, `idPets`)
-                                    VALUES
-                                    (:vl1, :vl2, :vl3, :vl4, :vl5, :vl6, :vl7, :vl8, :vl9, :vl10, :vl11, :vl12, :vl13, :vl14, :vl15, :vl16, :vl17, :vl18)");
-
-                                    $sqli->bindParam(':vl1', $ID, PDO::PARAM_INT);
-                                    $sqli->bindParam(':vl2', $name, PDO::PARAM_STR);
-                                    $sqli->bindParam(':vl3', $raz, PDO::PARAM_STR);
-                                    $sqli->bindParam(':vl4', $peso, PDO::PARAM_INT);
-                                    $sqli->bindParam(':vl5', $color, PDO::PARAM_STR);
-                                    $sqli->bindParam(':vl6', $steril, PDO::PARAM_INT);
-                                    $sqli->bindParam(':vl7', $edad, PDO::PARAM_INT);
-                                    $sqli->bindParam(':vl8', $meses, PDO::PARAM_INT);
-                                    $sqli->bindParam(':vl9', $bacuOne, PDO::PARAM_LOB);
-                                    $sqli->bindParam(':vl10', $bacuTwo, PDO::PARAM_LOB);
-                                    $sqli->bindParam(':vl11', $bacuTree, PDO::PARAM_LOB);
-                                    $sqli->bindParam(':vl12', $disiase, PDO::PARAM_STR);
-                                    $sqli->bindParam(':vl13', $oneDog, PDO::PARAM_LOB);
-                                    $sqli->bindParam(':vl14', $twoDog, PDO::PARAM_LOB);
-                                    $sqli->bindParam(':vl15', $treeDog, PDO::PARAM_LOB);
-                                    $sqli->bindParam(':vl16', $forDog, PDO::PARAM_LOB);
-                                    $sqli->bindParam(':vl17', $sexo, PDO::PARAM_INT);
-                                    $sqli->bindParam(':vl18', $tpMasc, PDO::PARAM_INT);
-
-                                    if ($sqli->execute()) {
-                                        mjsjj("SU MASCOTA HA SIDO REGISTRADA CON EXITO");
-                                    } else {
-                                        mjsjj("Ocurrió un error al registrar la mascota");
-                                    }
-                                } catch (Exception $e) {
-                                    error_log("Error al cargar la imagen: " . $e->getMessage());
-                                    mjsjj("Error al procesar las imágenes");
-                                }
-                            }
-                        }
-                    } catch (Exception $e) {
-                        error_log("Error inesperado: " . $e->getMessage());
-                        echo "ERROR INESPERADO";
-                    }
-                ?>
-            </div>
+            
         </div>
     </main>
-
+    <div id="resp">
+        <?php
+            try{
+                if(isset($_SESSION['Nofto'])){
+                    mjsjj($_SESSION['Nofto']);
+                    unset($_SESSION['Nofto']);
+                }
+                if(isset($_SESSION['idocu'])){
+                    mjsjj($_SESSION['idocu']);
+                    unset($_SESSION['mscregi']);
+                }
+                if(isset($_SESSION['mscregi'])){
+                    mjsjj($_SESSION['mscregi']);
+                    unset($_SESSION['mscregi']);
+                }
+                if(isset($_SESSION['catcherr'])){
+                    mjsjj($_SESSION['catcherr']);
+                    unset($_SESSION['catcherr']);
+                }
+                if(isset($_SESSION['errje'])){
+                    mjsjj($_SESSION['errje']);
+                    unset($_SESSION['errje']);
+                }
+                if(isset($_SESSION['rroerr'])){
+                    mjsjj($_SESSION['rroerr']);
+                    unset($_SESSION['rroerr']);
+                }
+            }catch(Exception $e){
+                error_log("Ha ocurrido un error " . $e->getMessage());
+                echo htmlspecialchars(trim("Error"));
+            }
+        ?>
+    </div>
     <div class="slider">
         <div class="slide active" style="background-image: url('../IMG/mascota1.jpg');"></div>
         <div class="slide" style="background-image: url('../IMG/mascota2.jpg');"></div>

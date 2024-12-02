@@ -4,3 +4,6 @@ define("MAILHASH", "+C+CeYHREvP/rJsXe/+InEc02CVL74VXBYLO2kFuaPTz/8ppZhvZHxYzIB7z
 
 // Hash de seguridad para documento
 define("DOCHASH", "4+Vm5y63qfzJmEWYZ13bet4lXakR29nbUMj3VJJAhvdpFzx9n43WqtHpVcGvKQcpd1Au10eIM30BoUzatH41xqgLmajX4nf1GFAnLSKKUdqIiJR1loeY940J000lQSsDJUWA0/XdjmC+ZVC3dosBrajxEtnL0dFynLHb7fvgTWJSzPpX7MaSHShPWa+P+chWS0u3T1vas/WhSfc5+0ssw2VDdW19rv1YJC/KmN0JCOO3/IEjv2Ou1cbgJr05qHNysd1XmeoA0GafAg7+kI2lQi14JtJRys4F1ueabKb07JjPEBiIATxSqWSFyHM6owbZZ/stB0TbGcpp4pCG3O+v9");
+
+
+?>

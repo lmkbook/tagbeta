@@ -1,5 +1,9 @@
 <?php
     session_start();
+    include_once('../model/connect.php');
+    $uluser = Connect::ObtainInstance()->prepare("SELECT `Pname`, `Psname` FROM `Rusers` ORDER BY `idRusers` DESC LIMIT 1");
+    $uluser->execute();
+    $row = $uluser->fetch(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -21,7 +25,6 @@
                 <p id="user-count">
                     <?php
                         try{
-                            include_once('../model/connect.php');
                             include_once('../model/segurity.php');
                             $nuUSer = Connect::ObtainInstance()->prepare("SELECT COUNT(idRusers) - 1 AS UTotal FROM Rusers");
                             if(!$nuUSer->execute()){
@@ -89,7 +92,7 @@
         <section class="activity-log">
             <h2>Actividad Reciente</h2>
             <ul>
-                <li>Nuevo usuario registrado: <strong>Juan Pérez</strong></li>
+                <li>Nuevo usuario registrado: <strong><?php echo htmlspecialchars(trim($row['Pname'] . " " . $row['Psname'])); ?></strong></li>
                 <li>Mascota encontrada reportada: <strong>Gato Blanco</strong></li>
                 <li>Publicación aprobada: <strong>Perro encontrado en el parque</strong></li>
                 <li>Notificación enviada: <strong>Recordatorio de vacuna</strong></li>

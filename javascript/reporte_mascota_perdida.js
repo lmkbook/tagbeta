@@ -1,3 +1,5 @@
+
+
 function initMap() {
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 8,
@@ -12,13 +14,11 @@ function initMap() {
         draggable: true,
 
     });
-    //Interactuar con el marcador
     google.maps.event.addListener(marker, 'dragend', function() {
         var position = marker.getPosition();
         const lt = document.getElementById('latitud').value = position.lat();
-        const lg =document.getElementById('longitud').value = position.lng();
-        console.log("Cordenadas: " + lt + " " + lg);
+        const lg = document.getElementById('longitud').value = position.lng();
     });
-
+    
 }
 

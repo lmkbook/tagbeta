@@ -38,3 +38,4 @@ class Connect {
         return self::$instance->connection;
     }
 }
+?>

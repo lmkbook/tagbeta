@@ -32,7 +32,7 @@ try {
 
     if ($checkQuery->rowCount() > 0) {
         // Eliminar registros en fchpets que dependen de esta mascota
-        $deleteChildQuery = $db->prepare("DELETE FROM fchpets WHERE idRepets = :petId");
+        $deleteChildQuery = $db->prepare("DELETE FROM Fchpets WHERE idRepets = :petId");
         $deleteChildQuery->bindParam(':petId', $petId, PDO::PARAM_INT);
         $deleteChildQuery->execute();
 

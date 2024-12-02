@@ -8,6 +8,9 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/PaginaMapaInteractivo.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../javascript/Ineteracmap.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmXFdiO3WTIWBUz1PS1xZHutNnmi_cFDM&callback=initMap"></script>
     <title>Mapa Interactivo - Tag My Pet</title>
     <link rel="icon" href="../IMG/favicon.ico" type="image/x-icon">
 </head>
@@ -24,17 +27,18 @@ session_start();
         <div class="map-container">
             <h2>Mapa Interactivo</h2>
             <div class="filter-options">
-                <button onclick="filterPins('lost')">Mascotas Perdidas</button>
-                <button onclick="filterPins('found')">Mascotas Encontradas</button>
+                <button id="losspet">Mascotas Perdidas</button>
+                <button id="ptfound">Mascotas Encontradas</button>
                 <button onclick="showAllPins()">Mostrar Todas</button>
             </div>
             <div id="map"></div>
             <p id="coords"></p>
         </div>
     </main>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmXFdiO3WTIWBUz1PS1xZHutNnmi_cFDM&callback=initMap"></script>
+    <script>
+        
+    </script>
     <script src="../javascript/slider.js"></script>
-    <script src="../javascript/mapaInteractivo.js"></script>
     <script src="../javascript/footer.js"></script>
 </body>
 </html>
