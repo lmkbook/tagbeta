@@ -1,0 +1,148 @@
+/* Estilos base */
+body {
+    background-color: #3B9C9C; 
+    font-family: 'Montserrat', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto; 
+}
+
+header {
+    background-color: #2F7F7F;
+    padding: 10px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilos para el menú de navegación */
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+nav ul li a:hover {
+    color: #FFA07A;
+}
+
+.contenedor {
+    width: 60%;
+    margin: 0 auto;
+    max-width: 1200px;
+    border: 3px solid transparent;
+    padding: 10px;
+}
+
+/* Barra de navegación */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #008080;
+    padding: 10px;
+    color: white;
+}
+
+.titulo {
+    color: white;
+    font-family: 'Montserrat', Arial, sans-serif;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+
+
+/* Sección de búsqueda */
+.busqueda {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+    margin-bottom: 80px;
+
+}
+
+#search-bar {
+    width: 30%;
+    padding: 0.5rem;
+
+}
+
+#search-button {
+    background-color: #FFA07A;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* Galería de videos */
+.galeria {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.video-item {
+    width: 150px;
+    text-align: center;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.video-item img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.video-item:hover {
+    transform: scale(1.05);
+}
+
+/* Modal para el video */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+#videoModal video {
+    width: 80%;
+    max-width: 600px;
+}
+
+#closeBtn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+p {
+    font-family: 'Montserrat', Arial, sans-serif;
+    color: #FFFFFF;
+}
