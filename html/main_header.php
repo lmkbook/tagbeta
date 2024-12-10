@@ -20,6 +20,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <li><a href="index.php">Inicio</a></li>
                 <li><a href="MascotaEncontradaQueHacer.php">¿Encontraste una Mascota?</a></li>
                 <li><a href="contacto.php">Contáctanos</a></li>
+                <li><a href="Ayuda.php">Ayuda</a></li>
             <?php endif; ?>
         </ul>
     </nav>
