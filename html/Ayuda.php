@@ -34,31 +34,31 @@ session_start(); // Mantén este session_start al inicio de la página
             <img src="../IMG/Ayuda_registro.jpg" alt="Video 1" width="200" height="150">
             <p>¿Cómo registrarme en Tag My Pet?</p>
         </div>
-        <div class="video-item" data-video="../video/iniciar_sesion.mp4">
+        <div class="video-item" data-video="../video/iniciasesion.mp4">
             <img src="../IMG/Ayuda_iniciosesion.jpg" alt="Video 2" width="200" height="150">
             <p>¿Cómo iniciar sesión?</p>
         </div>
-        <div class="video-item" data-video="">
+        <div class="video-item" data-video="../video/registromascota.mp4">
             <img src="../IMG/Ayuda_registromascota.jpg" alt="Video 3" width="200" height="150">
             <p>¿Cómo registro mi mascota(s)?</p>
         </div>
-        <div class="video-item" data-video="">
+        <div class="video-item" data-video="../video/alertamascotaper.mp4">
             <img src="../IMG/Ayuda_generaralertamasco.jpg" alt="Video 4"  width="200" height="150">
             <p>¡Generar alerta de mascota perdida!</p>
         </div>
-        <div class="video-item" data-video="">
+        <div class="video-item" data-video="../video/reportemasencontrada.mp4">
             <img src="../IMG/Ayuda_encontrarmasco.jpg" alt="Video 5" width="200" height="150">
             <p>¿Cómo reportar una mascota que encontre?</p>
         </div>
-        <div class="video-item" data-video="">
+        <div class="video-item" data-video="../video/foro.mp4">
             <img src="../IMG/Ayuda_foro.jpg" alt="Video 4" width="200" height="150">
             <p>Ingresar al foro</p>
         </div>
-        <div class="video-item" data-video="">
+        <div class="video-item" data-video="../video/actualizadatos.mp4">
             <img src="../IMG/Ayuda_actualizadatosuser.jpg" alt="Video 4" width="200" height="150">
             <p>Actualizar mis datos de usuario</p>
         </div>
-        <div class="video-item" data-video="">
+        <div class="video-item" data-video="../video/contactarnos.mp4">
             <img src="../IMG/Ayuda_contactanos.jpg" alt="Video 4" width="200" height="150"> 
             <p>¿Cómo contactarnos?</p>
         </div>
